@@ -1,0 +1,340 @@
+[
+  {
+    "id": 1,
+    "level": 5,
+    "characterInfo": {
+      "currentHealth": 5,
+      "allHealth": 10,
+      "tempHealth":11,
+      "speed": 25,
+      "armorClass": 10,
+      "experiencePoints": 100
+    },
+    "name": "Зублефар",
+    "description": "Тёмный эльф, следопыт и воин, главный персонаж книг Роберта Сальваторе и компьютерных ролевых игр по вселенной Forgotten Realms. В русском переводе издательства «Максима» героя называют Дзирт, так как издатели сочличто Дриззт звучит неблагозвучно в русском языке.",
+    "chRace": {
+      "name": "Эльф",
+      "description": "Описание расы",
+      "peculiarities": [
+        {
+          "title": "Темное зрение",
+          "text": "Вы можете видеть в темноте"
+        }
+      ],
+      "skillMastery": [
+        {
+          "name": "Восприятие",
+          "mastery": true
+        }
+      ],
+      "skillBoost": {
+        "Сила": 2
+      }
+    },
+    "chClass": [
+      {
+        "name": "Волшебник",
+        "level": 5
+      }
+    ],
+    "characteristics": {
+      "wisdom": {
+        "name": "Мудрость",
+        "value": 0,
+        "skills": [
+          {
+            "name": "Спасбросок",
+            "mastery": false
+          },
+          {
+            "name": "Восприятие",
+            "mastery": false
+          },
+          {
+            "name": "Выживание",
+            "mastery": false
+          },
+          {
+            "name": "Медицина",
+            "mastery": false
+          },
+          {
+            "name": "Проницательность",
+            "mastery": false
+          },
+          {
+            "name": "Уход за животными",
+            "mastery": false
+          }
+        ]
+      },
+      "strength": {
+        "name": "Сила",
+        "value": 0,
+        "skills": [
+          {
+            "name": "Спасбросок",
+            "mastery": false
+          },
+          {
+            "name": "Атлетика",
+            "mastery": false
+          }
+        ]
+      },
+      "dexterity": {
+        "name": "Ловкость",
+        "value": 0,
+        "skills": [
+          {
+            "name": "Спасбросок",
+            "mastery": false
+          },
+          {
+            "name": "Акробатика",
+            "mastery": false
+          },
+          {
+            "name": "Ловкость рук",
+            "mastery": false
+          },
+          {
+            "name": "Скрытность",
+            "mastery": false
+          }
+        ]
+      },
+      "charisma": {
+        "name": "Харизма",
+        "value": 0,
+        "skills": [
+          {
+            "name": "Спасбросок",
+            "mastery": false
+          },
+          {
+            "name": "Выступление",
+            "mastery": false
+          },
+          {
+            "name": "Запугивание",
+            "mastery": false
+          },
+          {
+            "name": "Обман",
+            "mastery": false
+          },
+          {
+            "name": "Убеждение",
+            "mastery": false
+          }
+        ]
+      },
+      "intelligence": {
+        "name": "Интеллект",
+        "value": 0,
+        "skills": [
+          {
+            "name": "Спасбросок",
+            "mastery": false
+          },
+          {
+            "name": "Анализ",
+            "mastery": false
+          },
+          {
+            "name": "История",
+            "mastery": false
+          },
+          {
+            "name": "Магия",
+            "mastery": false
+          },
+          {
+            "name": "Природа",
+            "mastery": false
+          },
+          {
+            "name": "Религия",
+            "mastery": false
+          }
+        ]
+      },
+      "constitution": {
+        "name": "Телосложение",
+        "value": 0,
+        "skills": [
+        ]
+      }
+    }
+  },
+  {
+    "id": 2,
+    "level": 5,
+    "characterInfo": {
+      "currentHealth": 5,
+      "allHealth": 10,
+      "tempHealth":11,
+      "speed": 25,
+      "armorClass": 10,
+      "experiencePoints": 100
+    },
+    "name": "Зублефар",
+    "description": "Тёмный эльф, следопыт и воин, главный персонаж книг Роберта Сальваторе и компьютерных ролевых игр по вселенной Forgotten Realms. В русском переводе издательства «Максима» героя называют Дзирт, так как издатели сочличто Дриззт звучит неблагозвучно в русском языке.",
+    "chRace": {
+      "name": "Эльф",
+      "description": "Описание расы",
+      "peculiarities": [
+        {
+          "title": "Темное зрение",
+          "text": "Вы можете видеть в темноте"
+        }
+      ],
+      "skillMastery": [
+        {
+          "name": "Восприятие",
+          "mastery": true
+        }
+      ],
+      "skillBoost": {
+        "Сила": 2
+      }
+    },
+    "chClass": [
+      {
+        "name": "Волшебник",
+        "level": 5
+      }
+    ],
+    "characteristics": {
+      "wisdom": {
+        "name": "Мудрость",
+        "value": 0,
+        "skills": [
+          {
+            "name": "Спасбросок",
+            "mastery": false
+          },
+          {
+            "name": "Восприятие",
+            "mastery": false
+          },
+          {
+            "name": "Выживание",
+            "mastery": false
+          },
+          {
+            "name": "Медицина",
+            "mastery": false
+          },
+          {
+            "name": "Проницательность",
+            "mastery": false
+          },
+          {
+            "name": "Уход за животными",
+            "mastery": false
+          }
+        ]
+      },
+      "strength": {
+        "name": "Сила",
+        "value": 0,
+        "skills": [
+          {
+            "name": "Спасбросок",
+            "mastery": false
+          },
+          {
+            "name": "Атлетика",
+            "mastery": false
+          }
+        ]
+      },
+      "dexterity": {
+        "name": "Ловкость",
+        "value": 0,
+        "skills": [
+          {
+            "name": "Спасбросок",
+            "mastery": false
+          },
+          {
+            "name": "Акробатика",
+            "mastery": false
+          },
+          {
+            "name": "Ловкость рук",
+            "mastery": false
+          },
+          {
+            "name": "Скрытность",
+            "mastery": false
+          }
+        ]
+      },
+      "charisma": {
+        "name": "Харизма",
+        "value": 0,
+        "skills": [
+          {
+            "name": "Спасбросок",
+            "mastery": false
+          },
+          {
+            "name": "Выступление",
+            "mastery": false
+          },
+          {
+            "name": "Запугивание",
+            "mastery": false
+          },
+          {
+            "name": "Обман",
+            "mastery": false
+          },
+          {
+            "name": "Убеждение",
+            "mastery": false
+          }
+        ]
+      },
+      "intelligence": {
+        "name": "Интеллект",
+        "value": 0,
+        "skills": [
+          {
+            "name": "Спасбросок",
+            "mastery": false
+          },
+          {
+            "name": "Анализ",
+            "mastery": false
+          },
+          {
+            "name": "История",
+            "mastery": false
+          },
+          {
+            "name": "Магия",
+            "mastery": false
+          },
+          {
+            "name": "Природа",
+            "mastery": false
+          },
+          {
+            "name": "Религия",
+            "mastery": false
+          }
+        ]
+      },
+      "constitution": {
+        "name": "Телосложение",
+        "value": 0,
+        "skills": [
+        ]
+      }
+    }
+  }
+]

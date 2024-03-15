@@ -4,7 +4,12 @@ part of 'character_bloc.dart';
 abstract class CharacterEvent {}
 
 class SelectEvent extends CharacterEvent{
-  Character character;
+  final Character character;
 
   SelectEvent(this.character);
+}
+class LoadDataEvent extends CharacterEvent{
+  final BuildContext? context;
+
+  LoadDataEvent(this.context);
 }

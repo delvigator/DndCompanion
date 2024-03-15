@@ -72,13 +72,10 @@ class _CharacterSelectorFormState extends State<CharacterSelectorForm> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 10.dp, bottom: 10.dp),
-                      child: const Row(
+                      child: Row(
                         children: [
                           Flexible(
-                            child: Text(
-                                "Тёмный эльф, следопыт и воин, главный персонаж книг Роберта Сальваторе и компьютерных ролевых игр "
-                                    "по вселенной Forgotten Realms. В русском переводе издательства «Максима» героя называют Дзирт, так как издатели сочли, "
-                                    "что Дриззт звучит неблагозвучно в русском языке."),
+                            child: Text(widget.character.description),
                           )
                         ],
                       ),
@@ -96,6 +93,10 @@ class _CharacterSelectorFormState extends State<CharacterSelectorForm> {
                           setState(() {
                             characterBloc.add(SelectEvent(widget.character));
                           });
+                            debugPrint("ПЕрсонаж");
+                          debugPrint((widget.character==characterBloc.state.currentCharacter).toString());
+                          debugPrint(characterBloc.state.currentCharacter?.chClass[0].name);
+                          debugPrint(widget.character.chClass[0].name);
 
                         },
                         child: const Text("Выбрать",

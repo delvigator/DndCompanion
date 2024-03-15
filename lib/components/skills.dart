@@ -1,36 +1,36 @@
-enum WisdomSkills{
-  save,
-  perception, //восприятие
-  survival,
-  medicine,
-  insight, //проницательность
-  animalCare
-}
-enum StrengthSkills{
-  save,
-  athletics,
-}
-enum DexteritySkills{
-  save,
-  acrobatics,
-  sleightOfHand, //ловкость рук
-  stealth
-}
-enum CharismaSkills{
-  save,
-  performance,
-  intimidation,// запугивание
-  deception, //обман
-  conviction //убеждение
-}
-enum IntelligenceSkills{
-  save,
-  analysis,
-  history,
-  magic,
-  nature,
-  religion
-}
-enum ConstitutionSkills{
-  save
-}
+Map<String,String> wisdomSkills={
+  "save":"Спасбросок",
+  "perception":"Восприятие",
+  "survival":"Выживание",
+  "medicine":"Медицина",
+  "insight":"Проницательность",
+  "animalCare":"Уход за животными"
+};
+Map<String,String> strengthSkills={
+  "save":"Спасбросок",
+  "athletics":"Атлетика",
+};
+Map<String,String> dexteritySkills={
+  "save":"Спасбросок",
+  "acrobatics":"Акробатика",
+  "sleightOfHand":"Ловкость рук",
+  "stealth":"Скрытность"
+};
+Map<String,String> charismaSkills={
+  "save":"Спасбросок",
+  "performance":"Выступление",
+  "intimidation":"Запугивание",
+  "deception":"Обман",
+  "conviction":"Убеждение"
+};
+Map<String,String> intelligenceSkills={
+  "save":"Спасбросок",
+  "analysis":"Анализ",
+  "history":"История",
+  "magic":"Магия",
+  "nature":"Природа",
+  "religion":"Религия"
+};
+Map<String,String> constitutionSkills={
+  "save":"Спасбросок"
+};

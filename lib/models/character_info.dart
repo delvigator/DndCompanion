@@ -6,8 +6,16 @@ class CharacterInfo{
   final int armorClass;
   final int experiencePoints;
 
-  CharacterInfo(this.currentHealth, this.allHealth, this.tempHealth, this.speed,
-      this.armorClass, this.experiencePoints);
+  CharacterInfo({required this.currentHealth, required this.allHealth, required this.tempHealth, required this.speed,
+      required this.armorClass, required this.experiencePoints});
+  factory CharacterInfo.fromJson(Map<String,dynamic> json){
+    return CharacterInfo(currentHealth: json["currentHealth"],
+        allHealth: json["allHealth"],
+        tempHealth: json["tempHealth"],
+        speed: json["speed"],
+        armorClass: json["armorClass"],
+        experiencePoints: json["experiencePoints"]);
 
+  }
 
 }

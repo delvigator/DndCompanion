@@ -1,20 +1,15 @@
 part of 'character_bloc.dart';
 
 @immutable
- class CharacterState {
+class CharacterState {
   final Character? currentCharacter;
+  final List<Character>? characters;
 
-  const CharacterState({this.currentCharacter});
+  const CharacterState({this.currentCharacter, this.characters=const []});
 
-  CharacterState copyWith( {
-   Character? currentCharacter
-}){
+  CharacterState copyWith({Character? currentCharacter, List<Character>?characters }) {
     return CharacterState(
-    currentCharacter: currentCharacter ?? this.currentCharacter
-    );
+        currentCharacter: currentCharacter ?? this.currentCharacter,
+        characters: characters ?? this.characters);
+  }
 }
-
-
-}
-
-
