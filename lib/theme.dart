@@ -23,12 +23,12 @@ ThemeData theme() {
 TextTheme textTheme(){
 
     return TextTheme(
-        bodyLarge: TextStyle(color: OurColors.textColor, fontSize: 14.dp,fontFamily: "Inter"),
+        bodyLarge: TextStyle(color: OurColors.textColorWhite, fontSize: 15.dp,fontFamily: "Inter"),
     // body
     bodyMedium: TextStyle(color: OurColors.textColor, fontSize: 12.dp,fontFamily: "Inter"),
     // body small
     titleMedium: TextStyle(
-    color: OurColors.textColor,
+    color: OurColors.textColorWhite,
     fontSize: 16.dp,
       fontFamily: "Inter"
     ),

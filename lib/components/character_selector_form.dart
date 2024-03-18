@@ -40,13 +40,13 @@ class _CharacterSelectorFormState extends State<CharacterSelectorForm> {
             iconColor: Colors.black,
             collapsedIconColor: Colors.black,
             title: Text(
-                widget.character.name, style: TextStyle(color: Colors.black)),
+                widget.character.name, style: Theme.of(context).textTheme.bodyMedium),
             subtitle: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "${widget.character.level} уровень",
-                  style: TextStyle(color: Colors.black),
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
 
                 characterBloc.state.currentCharacter == widget.character ?
@@ -93,10 +93,6 @@ class _CharacterSelectorFormState extends State<CharacterSelectorForm> {
                           setState(() {
                             characterBloc.add(SelectEvent(widget.character));
                           });
-                            debugPrint("ПЕрсонаж");
-                          debugPrint((widget.character==characterBloc.state.currentCharacter).toString());
-                          debugPrint(characterBloc.state.currentCharacter?.chClass[0].name);
-                          debugPrint(widget.character.chClass[0].name);
 
                         },
                         child: const Text("Выбрать",

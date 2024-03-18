@@ -1,3 +1,4 @@
+import 'package:dnd/bloc/information_bloc/information_bloc.dart';
 import 'package:dnd/components/skills.dart';
 import 'package:dnd/models/ch_class.dart';
 import 'package:dnd/models/ch_race.dart';
@@ -11,3 +12,4 @@ import 'models/user_data.dart';
 
 
 CharacterBloc characterBloc = CharacterBloc();
+InformationBloc informationBloc = InformationBloc();

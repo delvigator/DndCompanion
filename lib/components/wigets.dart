@@ -2,19 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 
-import 'our_colors.dart';
 
-Widget simpleButton(String text,Function onPressed,Color color){
+
+Widget simpleButton(Text text,Function onPressed,Color color,double height,double width){
   return  Container(
     height: 5.h,
-    width: 40.w,
+    width: 10.w,
     decoration: BoxDecoration(
         borderRadius:
-        const BorderRadius.all(Radius.circular(50)),
+        const BorderRadius.all(Radius.circular(20)),
         color: color),
     child: TextButton(
-      onPressed:onPressed(),
-      child: Text(text,style: const TextStyle(color: Colors.black),),
+      onPressed: onPressed(),
+      child: text,
     ),
   );
 }
