@@ -2,6 +2,7 @@ import 'package:dnd/bloc/information_bloc/information_bloc.dart';
 import 'package:dnd/components/default_button.dart';
 import 'package:dnd/components/our_colors.dart';
 import 'package:dnd/global_vars.dart';
+import 'package:dnd/pages/character_selector/character_creation/creation_class.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
@@ -53,17 +54,17 @@ class _CreationRaceState extends State<CreationRace> {
                           OurColors.lightPink,
                           Colors.white.withOpacity(0.05)
                         ],
-                        stops: [0.9, 1],
+                        stops: const [0.9, 1],
                         tileMode: TileMode.mirror,
                       ).createShader(bounds);
                     },
                     child: SizedBox(
                       width: 400.dp,
-                      height: 120.dp,
+                      height: informationBloc.state.races.length>4 ?120.dp : 60.dp,
                       child: GridView.count(
                           shrinkWrap: true,
                           childAspectRatio: (itemWidth / itemHeight),
-                          crossAxisCount: 2,
+                          crossAxisCount: informationBloc.state.races.length>4 ? 2 : 1,
                           physics: const ClampingScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           crossAxisSpacing: 10,
@@ -101,7 +102,7 @@ class _CreationRaceState extends State<CreationRace> {
                                 OurColors.lightPink,
                                 Colors.white.withOpacity(0.05)
                               ],
-                              stops: [0.9, 1],
+                              stops: const [0.9, 1],
                               tileMode: TileMode.mirror,
                             ).createShader(bounds);
                           },
@@ -118,6 +119,7 @@ class _CreationRaceState extends State<CreationRace> {
                                 mainAxisSpacing: 10,
                                 children: currentRace!.subRace
                                     .map((e) => DefaultButton(
+
                                           primaryColor: currentSubRace == e
                                               ? OurColors.lightPink
                                               : OurColors.focusColorLight,
@@ -139,7 +141,7 @@ class _CreationRaceState extends State<CreationRace> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                                padding: EdgeInsets.symmetric(vertical: 10.w),
+                                padding: EdgeInsets.only(top: 10.w,bottom: 5.w),
                                 alignment: Alignment.topLeft,
                                 child: Text("Информация",
                                     style: Theme.of(context)
@@ -232,7 +234,7 @@ class _CreationRaceState extends State<CreationRace> {
                         padding: EdgeInsets.all(5.w),
                           width: 50.w,
                         alignment: Alignment.bottomRight,
-                          child: const DefaultButton(text: "Далее")),
+                          child: DefaultButton(text: "Далее",onPress: (){ Navigator.of(context).pushNamed(CreationClass.routeName);},)),
                     ],
                   ) : Container()
                 ],

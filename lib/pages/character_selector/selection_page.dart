@@ -45,7 +45,7 @@ class _SelectionPageState extends State<SelectionPage> {
           builder: (context, state) {
             characterBloc.add(LoadDataEvent(context));
             return SingleChildScrollView(
-              child: Padding(
+              child: Container(
                 padding: EdgeInsets.all(15.dp),
                 child: characterBloc.state.characters!.isEmpty
                     ? Center(heightFactor: 2.8.h,

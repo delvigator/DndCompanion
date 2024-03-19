@@ -14,12 +14,20 @@ part 'information_state.dart';
 class InformationBloc extends Bloc<InformationEvent, InformationState> {
   InformationBloc() : super(const InformationState()) {
     on<LoadRacesEvent>(_onLoadRacesEvent);
+    on<LoadClassesEvent>(_onLoadClassesEvent);
   }
   _onLoadRacesEvent(LoadRacesEvent event,Emitter<InformationState> emit) async {
     String data = await DefaultAssetBundle.of(event.context!).loadString("assets/json/races.json");
     final result = jsonDecode(data);
     List<ChRace> races= List<ChRace>.generate(result.length, (index) => ChRace.fromJson(result[index]));
       emit(state.copyWith(races: races));
+
+  }
+  _onLoadClassesEvent(LoadClassesEvent event,Emitter<InformationState> emit) async {
+    String data = await DefaultAssetBundle.of(event.context!).loadString("assets/json/classes.json");
+    final result = jsonDecode(data);
+    List<ChClass> classes= List<ChClass>.generate(result.length, (index) => ChClass.fromJson(result[index]));
+    emit(state.copyWith(classes: classes));
 
   }
 }

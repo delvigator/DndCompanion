@@ -50,7 +50,7 @@ class _CharacterSelectorFormState extends State<CharacterSelectorForm> {
                 ),
 
                 characterBloc.state.currentCharacter == widget.character ?
-                Text("Текущий",style: TextStyle(color: OurColors.focusColorLight),) : Container()
+                const Text("Текущий",style: TextStyle(color: OurColors.focusColorLight),) : Container()
               ],
             ),
             children: [
