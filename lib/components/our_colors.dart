@@ -7,6 +7,7 @@ class OurColors {
   static const Color scaffoldBackgroundColor = Color(0xFF000000);
   static const Color lightGrey = Color(0xFFFFFFFF); // Серый
   static const Color focusColor= Color(0xFFB77990);
+  static const Color disabled= Color(0xFFAB9AA0);
   static const Color focusColorTile= Color(0xFF574056);
   static const Color focusColorLight= Color(0xFF9D3356);
   static const Color lightPink= Color(0xFFE5C9D4);

@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:dnd/models/ch_race.dart';
+import 'package:dnd/models/feature.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 
@@ -15,6 +16,7 @@ class InformationBloc extends Bloc<InformationEvent, InformationState> {
   InformationBloc() : super(const InformationState()) {
     on<LoadRacesEvent>(_onLoadRacesEvent);
     on<LoadClassesEvent>(_onLoadClassesEvent);
+    on<LoadFeaturesEvent>(_onLoadFeaturesEvent);
   }
   _onLoadRacesEvent(LoadRacesEvent event,Emitter<InformationState> emit) async {
     String data = await DefaultAssetBundle.of(event.context!).loadString("assets/json/races.json");
@@ -28,6 +30,14 @@ class InformationBloc extends Bloc<InformationEvent, InformationState> {
     final result = jsonDecode(data);
     List<ChClass> classes= List<ChClass>.generate(result.length, (index) => ChClass.fromJson(result[index]));
     emit(state.copyWith(classes: classes));
+
+  }
+
+  _onLoadFeaturesEvent(LoadFeaturesEvent event,Emitter<InformationState> emit) async {
+    String data = await DefaultAssetBundle.of(event.context!).loadString("assets/json/features.json");
+    final result = jsonDecode(data);
+    List<Feature> features= List<Feature>.generate(result.length, (index) => Feature.fromJson(result[index]));
+    emit(state.copyWith(features: features));
 
   }
 }

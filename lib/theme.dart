@@ -25,7 +25,8 @@ TextTheme textTheme(){
     return TextTheme(
         bodyLarge: TextStyle(color: OurColors.textColorWhite, fontSize: 15.dp,fontFamily: "Inter"),
     // body
-    bodyMedium: TextStyle(color: OurColors.textColor, fontSize: 12.dp,fontFamily: "Inter"),
+    bodyMedium: TextStyle(color: OurColors.textColor, fontSize: 14.dp,fontFamily: "Inter"),
+        bodySmall: TextStyle(color: OurColors.textColor, fontSize: 12.dp,fontFamily: "Inter"),
     // body small
     titleMedium: TextStyle(
     color: OurColors.textColorWhite,

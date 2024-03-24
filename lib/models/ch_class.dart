@@ -7,7 +7,17 @@ class ChClass extends Equatable {
   final List<ClassSkillsPerLevel> classSkillsPerLevel;
   final List<ClassSkillsText> classSkillsText;
 
-  ChClass({
+  ClassSkillsPerLevel? getSkillsByLevel (int level){
+    ClassSkillsPerLevel? result;
+for (var element in classSkillsPerLevel) {
+  if(element.level==level) {
+    result=element;
+  }
+}
+    return result;
+  }
+
+  const ChClass({
     required this.name,
     required this.level,
     required this.classInfo,
@@ -97,6 +107,7 @@ class ClassSkillsPerLevel {
   final int numberKnownSpells;
   final int numberKnownFocuses;
   final Map<String, int> spellSlots;
+
 
   ClassSkillsPerLevel(
       {required this.numberKnownFocuses,

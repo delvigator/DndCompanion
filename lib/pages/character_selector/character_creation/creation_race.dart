@@ -60,11 +60,14 @@ class _CreationRaceState extends State<CreationRace> {
                     },
                     child: SizedBox(
                       width: 400.dp,
-                      height: informationBloc.state.races.length>4 ?120.dp : 60.dp,
+                      height: informationBloc.state.races.length > 4
+                          ? 120.dp
+                          : 60.dp,
                       child: GridView.count(
                           shrinkWrap: true,
                           childAspectRatio: (itemWidth / itemHeight),
-                          crossAxisCount: informationBloc.state.races.length>4 ? 2 : 1,
+                          crossAxisCount:
+                              informationBloc.state.races.length > 4 ? 2 : 1,
                           physics: const ClampingScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           crossAxisSpacing: 10,
@@ -119,7 +122,6 @@ class _CreationRaceState extends State<CreationRace> {
                                 mainAxisSpacing: 10,
                                 children: currentRace!.subRace
                                     .map((e) => DefaultButton(
-
                                           primaryColor: currentSubRace == e
                                               ? OurColors.lightPink
                                               : OurColors.focusColorLight,
@@ -138,10 +140,11 @@ class _CreationRaceState extends State<CreationRace> {
                       : Container(),
                   currentRace != null
                       ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                                padding: EdgeInsets.only(top: 10.w,bottom: 5.w),
+                                padding:
+                                    EdgeInsets.only(top: 10.w, bottom: 5.w),
                                 alignment: Alignment.topLeft,
                                 child: Text("Информация",
                                     style: Theme.of(context)
@@ -166,77 +169,106 @@ class _CreationRaceState extends State<CreationRace> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: currentRace!.peculiarities
                                   .map((perc) => RichText(
-                                textScaleFactor: 1,
-                                selectionColor: Colors.white,
-                               textAlign: TextAlign.start,
-                                      text:
-                                      TextSpan(
-                                        text: "${perc.title} ",
-                                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white,fontWeight: FontWeight.bold),
+                                      textScaleFactor: 1,
+                                      selectionColor: Colors.white,
+                                      textAlign: TextAlign.start,
+                                      text: TextSpan(
+                                          text: "${perc.title} ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
                                           children: [
-                                        TextSpan(
-                                            text: "${perc.text} \n",
-                                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white)),
-
-                                      ])))
+                                            TextSpan(
+                                                text: "${perc.text} \n",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium
+                                                    ?.copyWith(
+                                                        color: Colors.white)),
+                                          ])))
                                   .toList(),
                             )
                           ],
                         )
                       : Container(),
-                  currentSubRace !=null ?
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                          padding: EdgeInsets.symmetric(vertical: 5.w),
-                          alignment: Alignment.topLeft,
-                          child: Text(currentSubRace!.name,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium)),
-                      Container(
-                          alignment: Alignment.topLeft,
-                          child: Text("${currentSubRace?.description}",
-                              textAlign: TextAlign.justify,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(color: Colors.white))),
-                      SizedBox(height: 2.h,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: currentSubRace!.peculiarities
-                            .map((perc) => RichText(
-                            textScaleFactor: 1,
-                            selectionColor: Colors.white,
-                            textAlign: TextAlign.start,
-                            text:
-                            TextSpan(
-                                text: "${perc.title} ",
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white,fontWeight: FontWeight.bold),
-                                children: [
-                                  TextSpan(
-                                      text: "${perc.text} \n",
-                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white)),
-
-                                ])))
-                            .toList(),
-                      )
-                    ],
-                  )
+                  currentSubRace != null
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                                padding: EdgeInsets.symmetric(vertical: 5.w),
+                                alignment: Alignment.topLeft,
+                                child: Text(currentSubRace!.name,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium)),
+                            Container(
+                                alignment: Alignment.topLeft,
+                                child: Text("${currentSubRace?.description}",
+                                    textAlign: TextAlign.justify,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(color: Colors.white))),
+                            SizedBox(
+                              height: 2.h,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: currentSubRace!.peculiarities
+                                  .map((perc) => RichText(
+                                      textScaleFactor: 1,
+                                      selectionColor: Colors.white,
+                                      textAlign: TextAlign.start,
+                                      text: TextSpan(
+                                          text: "${perc.title} ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.copyWith(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                          children: [
+                                            TextSpan(
+                                                text: "${perc.text} \n",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium
+                                                    ?.copyWith(
+                                                        color: Colors.white)),
+                                          ])))
+                                  .toList(),
+                            )
+                          ],
+                        )
                       : Container(),
-                      currentRace!=null && (currentSubRace!=null || currentRace!.subRace.isEmpty) ?
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(5.w),
-                          width: 50.w,
-                        alignment: Alignment.bottomRight,
-                          child: DefaultButton(text: "Далее",onPress: (){ Navigator.of(context).pushNamed(CreationClass.routeName);},)),
-                    ],
-                  ) : Container()
+                  currentRace != null &&
+                          (currentSubRace != null ||
+                              currentRace!.subRace.isEmpty)
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Container(
+                                padding: EdgeInsets.all(5.w),
+                                width: 50.w,
+                                alignment: Alignment.bottomRight,
+                                child: DefaultButton(
+                                  text: "Далее",
+                                  onPress: () {
+                                    Navigator.of(context).pushNamed(
+                                        CreationClass.routeName,
+                                        arguments: {
+                                          "currentRace": currentRace,
+                                          "currentSubRace": currentSubRace
+                                        });
+                                  },
+                                )),
+                          ],
+                        )
+                      : Container()
                 ],
               ),
             ));
