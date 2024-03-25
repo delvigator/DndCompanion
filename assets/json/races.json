@@ -1,10 +1,12 @@
 [
   {
     "name": "Эльф",
+    "numberFeatures": 2,
     "description": "Эльфы — это волшебный народ, обладающий неземным изяществом, живущий в мире, но не являющийся его частью. Они живут в местах, наполненных воздушной красотой, в глубинах древних лесов или в серебряных жилищах, увенчанных сверкающими шпилями и переливающихся волшебным светом. Там лёгкие дуновения ветра разносят обрывки тихих мелодий и нежные ароматы. Эльфы любят природу и магию, музыку и поэзию, и всё прекрасное, что есть в мире.\n\n",
     "subRace": [
       {
         "name": "Дроу",
+        "numberFeatures": 0,
         "description": "Описание расы",
         "subRace": [],
         "peculiarities": [
@@ -25,6 +27,7 @@
       },
       {
         "name": "Высший эльф",
+        "numberFeatures": 0,
         "description": "Описание расы",
         "subRace": [],
         "peculiarities": [
@@ -71,6 +74,7 @@
   },
   {
     "name": "Орк",
+    "numberFeatures": 2,
     "description": "Описание расы",
     "subRace": [],
     "peculiarities": [
@@ -91,6 +95,7 @@
   },
   {
     "name": "Аасимар",
+    "numberFeatures": 1,
     "description": "Описание расы",
     "subRace": [],
     "peculiarities": [
@@ -111,6 +116,7 @@
   },
   {
     "name": "Кастомный класс",
+    "numberFeatures": 1,
     "description": "Описание расы",
     "subRace": [],
     "peculiarities": [
@@ -131,6 +137,7 @@
   },
   {
     "name": "ААСИМАР-ЗАЩИТНИК",
+    "numberFeatures": 1,
     "description": "Описание расы",
     "subRace": [],
     "peculiarities": [
@@ -151,6 +158,7 @@
   },
   {
     "name": "Тифлинг",
+    "numberFeatures": 2,
     "description": "Описание расы",
     "subRace": [],
     "peculiarities": [
@@ -171,6 +179,7 @@
   },
   {
     "name": "Ааракокра",
+    "numberFeatures": 2,
     "description": "Описание расы",
     "subRace": [],
     "peculiarities": [

@@ -1,5 +1,5 @@
-{
-  "wisdom": {
+[
+  {
     "name": "Мудрость",
     "value": 0,
     "skills": [
@@ -29,7 +29,7 @@
       }
     ]
   },
-  "strength": {
+ {
     "name": "Сила",
     "value": 0,
     "skills": [
@@ -43,7 +43,7 @@
       }
     ]
   },
-  "dexterity": {
+   {
     "name": "Ловкость",
     "value": 0,
     "skills": [
@@ -65,7 +65,7 @@
       }
     ]
   },
-  "charisma": {
+  {
     "name": "Харизма",
     "value": 0,
     "skills": [
@@ -91,7 +91,7 @@
       }
     ]
   },
-  "intelligence": {
+  {
     "name": "Интеллект",
     "value": 0,
     "skills": [
@@ -121,11 +121,11 @@
       }
     ]
   },
-  "constitution": {
+   {
     "name": "Телосложение",
     "value": 0,
     "skills": [
     ]
   }
 
-}
+]

@@ -13,3 +13,8 @@ class LoadDataEvent extends CharacterEvent{
 
   LoadDataEvent(this.context);
 }
+class AddItemEvent extends CharacterEvent{
+  final Character character;
+
+  AddItemEvent(this.character);
+}

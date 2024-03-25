@@ -12,8 +12,18 @@ ThemeData theme() {
       scaffoldBackgroundColor: OurColors.scaffoldBackgroundColor,
       useMaterial3: true,
       textTheme: textTheme(),
+      colorScheme: ColorScheme.fromSwatch(
+        backgroundColor: Colors.white,
+        primarySwatch: Colors.pink,
+      ).copyWith(),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          textStyle: textTheme().bodySmall?.copyWith(color: OurColors.focusColorLight)
+        ),
+      ),
       unselectedWidgetColor: Colors.black,
       primaryColor: Colors.black,
+    focusColor: OurColors.focusColorLight,
     //  appBarTheme: appBarTheme(),
       //textTheme: textTheme(),
       hintColor: Colors.black,

@@ -9,11 +9,13 @@ class ChRace extends Equatable {
   final List<Peculiarities> peculiarities; //особенности
   final List<Skill> skillMastery;
   final Map<String, int> skillBoost;
+  final int numberFeatures;
 
 // + заклинания которые добавляются с расой
   const ChRace(
       {
-      required this.name,
+        required this.numberFeatures,
+        required this.name,
       required this.subRace,
       required this.description,
       required this.peculiarities,
@@ -33,7 +35,7 @@ class ChRace extends Equatable {
           skills.length, (index) => Skill.fromJson(skills[index])),
       skillBoost: Map<String, int>.from(json["skillBoost"]),
       subRace: List<ChRace>.generate(
-          subRace.length, (index) => ChRace.fromJson(subRace[index])),
+          subRace.length, (index) => ChRace.fromJson(subRace[index])), numberFeatures: json["numberFeatures"],
     );
   }
 

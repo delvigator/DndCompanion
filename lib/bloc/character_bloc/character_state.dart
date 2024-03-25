@@ -3,7 +3,7 @@ part of 'character_bloc.dart';
 @immutable
 class CharacterState {
   final Character? currentCharacter;
-  final List<Character>? characters;
+  final List<Character> characters;
 
   const CharacterState({this.currentCharacter, this.characters=const []});
 

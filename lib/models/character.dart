@@ -8,7 +8,7 @@ import 'ch_class.dart';
 import 'ch_race.dart';
 
 class Character extends Equatable {
-  final int id;
+
   final int level;
   final String name;
   final String description;
@@ -18,8 +18,8 @@ class Character extends Equatable {
   final Characteristics characteristics;
   final CharacterInfo characterInfo;
 
-  Character(
-      {required this.id,
+  const Character(
+      {
         required this.level,
       required this.name,
       this.portrait,
@@ -32,7 +32,6 @@ class Character extends Equatable {
   factory Character.fromJson(Map<String, dynamic> json) {
     List<dynamic> classes = json["chClass"];
     return Character(
-      id: json["id"],
         level: json["level"],
         name: json["name"],
         chRace: ChRace.fromJson(json["chRace"]),
@@ -44,7 +43,7 @@ class Character extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id,level,name];
+  List<Object?> get props => [level,name];
 
 
 

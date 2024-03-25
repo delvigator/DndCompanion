@@ -4,6 +4,7 @@ import 'package:dnd/models/ch_class.dart';
 import 'package:dnd/models/ch_race.dart';
 import 'package:dnd/models/character.dart';
 import 'package:dnd/models/character_info.dart';
+import 'package:flutter/cupertino.dart';
 
 
 import 'bloc/character_bloc/character_bloc.dart';
@@ -13,3 +14,4 @@ import 'models/user_data.dart';
 
 CharacterBloc characterBloc = CharacterBloc();
 InformationBloc informationBloc = InformationBloc();
+final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();

@@ -30,11 +30,11 @@ bool isChanged=false;
     if (values.isEmpty) {
       values = List.generate(
           currentClass.classInfo.simpleSkills.length,
-          (index) => simpleSkills.contains(currentClass.classInfo.simpleSkills[index])
+          (index) => simpleSkillsSelected.contains(currentClass.classInfo.simpleSkills[index])
               ? true
               : false);
       for (var element in values) {if(element==true) currentNumber++;}
-      for (var element in simpleSkills) {
+      for (var element in simpleSkillsSelected) {
         if(!result.contains(element)) result.add(element);
       }
     }
@@ -46,7 +46,7 @@ bool isChanged=false;
             )),
         floatingActionButton: FloatingActionButton(
             onPressed:  () {
-              simpleSkills=List.from(result);} ,
+              simpleSkillsSelected=List.from(result);} ,
             shape: const CircleBorder(),
             backgroundColor:  OurColors.focusColor,
             foregroundColor: Colors.black,
