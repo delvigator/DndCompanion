@@ -19,3 +19,8 @@ class LoadFeaturesEvent extends InformationEvent {
 
   LoadFeaturesEvent(this.context);
 }
+class LoadSpellsEvent extends InformationEvent {
+  final BuildContext? context;
+
+  LoadSpellsEvent(this.context);
+}

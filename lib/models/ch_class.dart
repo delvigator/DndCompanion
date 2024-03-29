@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
 class ChClass extends Equatable {
   final String name;
@@ -9,6 +10,7 @@ class ChClass extends Equatable {
 
   ClassSkillsPerLevel? getSkillsByLevel (int level){
     ClassSkillsPerLevel? result;
+
 for (var element in classSkillsPerLevel) {
   if(element.level==level) {
     result=element;

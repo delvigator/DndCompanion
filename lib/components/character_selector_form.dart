@@ -24,6 +24,7 @@ class CharacterSelectorForm extends StatefulWidget {
 class _CharacterSelectorFormState extends State<CharacterSelectorForm> {
   @override
   Widget build(BuildContext context) {
+    TextStyle? small=Theme.of(context).textTheme.bodySmall;
     return BlocBuilder<CharacterBloc, CharacterState>(
       bloc: characterBloc,
       builder: (context, state) {
@@ -65,7 +66,7 @@ class _CharacterSelectorFormState extends State<CharacterSelectorForm> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: widget.character.chClass
-                              .map((e) => Text("${e.name} ${e.level} ур."))
+                              .map((e) => Text("${e.name} ${e.level} ур.",style: small,))
                               .toList(),
                         )
                       ],
@@ -75,7 +76,7 @@ class _CharacterSelectorFormState extends State<CharacterSelectorForm> {
                       child: Row(
                         children: [
                           Flexible(
-                            child: Text(widget.character.description),
+                            child: Text(widget.character.description,style: small,),
                           )
                         ],
                       ),

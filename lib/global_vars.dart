@@ -15,3 +15,5 @@ import 'models/user_data.dart';
 CharacterBloc characterBloc = CharacterBloc();
 InformationBloc informationBloc = InformationBloc();
 final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
+ Map<String,List<TextEditingController>> globalSpells={};
+List<bool> globalChecks=[];

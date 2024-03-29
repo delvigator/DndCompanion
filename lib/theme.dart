@@ -8,6 +8,7 @@ import 'components/our_colors.dart';
 ThemeData theme() {
   return ThemeData(
       fontFamily: 'Inter',
+      dividerColor: Colors.transparent,
     appBarTheme: appBarTheme(),
       scaffoldBackgroundColor: OurColors.scaffoldBackgroundColor,
       useMaterial3: true,
@@ -21,7 +22,7 @@ ThemeData theme() {
           textStyle: textTheme().bodySmall?.copyWith(color: OurColors.focusColorLight)
         ),
       ),
-      unselectedWidgetColor: Colors.black,
+      unselectedWidgetColor: Colors.white,
       primaryColor: Colors.black,
     focusColor: OurColors.focusColorLight,
     //  appBarTheme: appBarTheme(),
@@ -35,7 +36,7 @@ TextTheme textTheme(){
     return TextTheme(
         bodyLarge: TextStyle(color: OurColors.textColorWhite, fontSize: 15.dp,fontFamily: "Inter"),
     // body
-    bodyMedium: TextStyle(color: OurColors.textColor, fontSize: 14.dp,fontFamily: "Inter"),
+    bodyMedium: TextStyle(color: OurColors.textColor, fontSize: 13.dp,fontFamily: "Inter"),
         bodySmall: TextStyle(color: OurColors.textColor, fontSize: 12.dp,fontFamily: "Inter"),
     // body small
     titleMedium: TextStyle(
@@ -43,6 +44,11 @@ TextTheme textTheme(){
     fontSize: 16.dp,
       fontFamily: "Inter"
     ),
+        titleSmall: TextStyle(
+            color: OurColors.textColorWhite,
+            fontSize: 12.dp,
+            fontFamily: "Inter"
+        ),
     // (default for TextField)
     headlineSmall: TextStyle(
     color: OurColors.textColor,
@@ -53,7 +59,12 @@ TextTheme textTheme(){
 
   }
   AppBarTheme appBarTheme(){
-return const AppBarTheme(
+return AppBarTheme(
+  titleTextStyle: TextStyle(
+      color: OurColors.textColorWhite,
+      fontSize: 16.dp,
+      fontFamily: "Inter"
+  ),
   color: OurColors.backgroundColor,
   foregroundColor: OurColors.textColorWhite,
 );

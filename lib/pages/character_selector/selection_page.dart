@@ -47,12 +47,12 @@ class _SelectionPageState extends State<SelectionPage> {
             return SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.all(15.dp),
-                child: characterBloc.state.characters!.isEmpty
+                child: characterBloc.state.characters.isEmpty
                     ? Center(heightFactor: 2.8.h,
                     child: const Text(
                       "Нет персонажей", style: TextStyle(color: Colors.white),))
                     : Column(
-                    children: characterBloc.state.characters!.map((unit) =>
+                    children: characterBloc.state.characters.map((unit) =>
                         CharacterSelectorForm(character: unit)).toList()
                 ),
               ),
