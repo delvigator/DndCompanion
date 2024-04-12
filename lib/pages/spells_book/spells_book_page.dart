@@ -1,5 +1,7 @@
 import 'package:dnd/bloc/character_bloc/character_bloc.dart';
 import 'package:dnd/global_vars.dart';
+import 'package:dnd/pages/spells_book/spell_description.dart';
+import 'package:dnd/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,7 +9,6 @@ import 'package:flutter_sizer/flutter_sizer.dart';
 
 import '../../components/our_colors.dart';
 import '../../models/character.dart';
-import '../../models/magic_spell.dart';
 
 class SpellsBookPage extends StatefulWidget {
   const SpellsBookPage({super.key});
@@ -19,12 +20,21 @@ class SpellsBookPage extends StatefulWidget {
 class _SpellsBookPageState extends State<SpellsBookPage> {
   Map<String, List<TextEditingController>> spells = globalSpells;
   List<String> levels = List.generate(
-      10, (index) => index == 0 ? "Фокус" : (index - 1).toString());
+      10, (index) => index == 0 ? "Фокус" : (index).toString());
   List<bool> checks = [];
-  List<MagicSpell> currentSpells = [];
 
   @override
+  void initState() {
+    super.initState();
+    // TODO: implement initState
+    readPrefs(context);
+    setState(() {
+      checks=globalChecks;
+    });
+  }
+  @override
   Widget build(BuildContext context) {
+    checks=globalChecks;
     if (globalChecks.isEmpty) {
       checks =
           List.generate(levels.length, (index) => index == 0 ? true : false);
@@ -33,40 +43,39 @@ class _SpellsBookPageState extends State<SpellsBookPage> {
       checks = globalChecks;
     }
 
-    TextStyle? small = Theme.of(context).textTheme.bodySmall;
-    TextStyle? verySmall = Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 10.dp);
+    TextStyle? small = Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 12.dp);
+    TextStyle? verySmall =
+        Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 10.dp);
+
     return BlocBuilder<CharacterBloc, CharacterState>(
       bloc: characterBloc,
       builder: (context, state) {
-        Character? character = characterBloc.state.currentCharacter;
-        if (character != null && spells.isEmpty) {
-          for (var element in character.chClass) {
+        int index=characterBloc.state.currentCharacter;
+        if (characterBloc.state.currentCharacter != -1 && globalSpells.isEmpty) {
+          for (var element in characterBloc.state.characters[index].chClass) {
             spells.putIfAbsent(element.name,
                 () => List.generate(9, (index) => TextEditingController()));
             spells[element.name]?.asMap().forEach((key, value) {
               value.text = element
-                  .getSkillsByLevel(character.level)!
+                  .getSkillsByLevel(characterBloc.state.characters[index].level)!
                   .spellSlots[(key + 1).toString()]
                   .toString();
             });
           }
           globalSpells = spells;
         }
-        if (currentSpells.isEmpty && character != null) {
+        if (index != -1) {
           checks.asMap().entries.forEach((i) {
-            if(i.value==true) {
-              character.selectedSpells
-                  .asMap()
-                  .entries
-                  .forEach((j) {
-                if(j.value.level==i.key ){
-                  currentSpells.add(j.value);
+            if (i.value == true) {
+              characterBloc.state.characters[index].knownSpells.asMap().entries.forEach((j) {
+                if (j.value.level == i.key) {
+                 characterBloc.add(AddSelectedSpellEvent(j.value));
                 }
               });
             }
           });
         }
-        return character == null
+        return index == -1
             ? Center(
                 heightFactor: 2.8.h,
                 child: Text(
@@ -79,76 +88,74 @@ class _SpellsBookPageState extends State<SpellsBookPage> {
             : Expanded(
                 child: ListView(children: [
                   SafeArea(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 4.h),
-                      child: Column(
-                        children: [
-                          Column(
-                              children: character.chClass
-                                  .asMap()
-                                  .entries
-                                  .map((element) => Card(
-                                        color: OurColors.focusColor,
-                                        clipBehavior: Clip.antiAlias,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
+                    child: Column(
+                      children: [
+                        Column(
+                            children: characterBloc.state.characters[index].chClass
+                                .asMap()
+                                .entries
+                                .map((element) => Card(
+                                      color: OurColors.focusColor,
+                                      clipBehavior: Clip.antiAlias,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      child: ExpansionTile(
+                                        backgroundColor: OurColors.focusColor,
+                                        iconColor: Colors.black,
+                                        subtitle: Text(
+                                          element.value.name,
+                                          style: small,
                                         ),
-                                        child: ExpansionTile(
-                                          backgroundColor: OurColors.focusColor,
-                                          iconColor: Colors.black,
-                                          subtitle: Text(
-                                            element.value.name,
-                                            style: small,
-                                          ),
-                                          collapsedIconColor: Colors.black,
-                                          title: Text("Ячейки заклинаний",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium),
-                                          children: [
-                                            Container(
-                                              padding: EdgeInsets.all(12.dp),
-                                              color: Colors.white,
-                                              child: Column(
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 2.h),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      children: [
-                                                        Text(
-                                                          "Уровень",
-                                                          style: small,
-                                                        ),
-                                                        Text(
-                                                          "Всего",
-                                                          style: small,
-                                                        ),
-                                                        Text(
-                                                          "Осталось",
-                                                          style: small,
-                                                        ),
-                                                      ],
-                                                    ),
+                                        collapsedIconColor: Colors.black,
+                                        title: Text("Ячейки заклинаний",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium),
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.all(12.dp),
+                                            color: Colors.white,
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 2.h),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      Text(
+                                                        "Уровень",
+                                                        style: small,
+                                                      ),
+                                                      Text(
+                                                        "Всего",
+                                                        style: small,
+                                                      ),
+                                                      Text(
+                                                        "Осталось",
+                                                        style: small,
+                                                      ),
+                                                    ],
                                                   ),
-                                                  Column(
-                                                    children: element.value
-                                                        .getSkillsByLevel(
-                                                            element
-                                                                .value.level)!
-                                                        .spellSlots
-                                                        .entries
-                                                        .map((e) => Column(
-                                                              children: [
-                                                                Row(
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                                  children: element.value
+                                                      .getSkillsByLevel(
+                                                          element.value.level)!
+                                                      .spellSlots
+                                                      .entries
+                                                      .map((e) => Column(
+                                                            children: [
+                                                              Padding(
+                                                                padding:  EdgeInsets.only(left: 6.w),
+                                                                child: Row(
                                                                   mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceAround,
+                                                                      MainAxisAlignment.spaceAround,
                                                                   children: [
                                                                     Text(
                                                                       e.key,
@@ -164,8 +171,8 @@ class _SpellsBookPageState extends State<SpellsBookPage> {
                                                                     Container(
                                                                         height:
                                                                             4.h,
-                                                                        width: 15
-                                                                            .w,
+                                                                        width:
+                                                                            15.w,
                                                                         padding: EdgeInsets.symmetric(
                                                                             horizontal: 10
                                                                                 .dp,
@@ -173,10 +180,11 @@ class _SpellsBookPageState extends State<SpellsBookPage> {
                                                                                 .dp),
                                                                         decoration:
                                                                             BoxDecoration(
-                                                                          color:
-                                                                              Colors.white,
-                                                                          border:
-                                                                              Border.all(color: OurColors.focusColorLight),
+                                                                          color: Colors
+                                                                              .white,
+                                                                          border: Border.all(
+                                                                              color:
+                                                                                  OurColors.focusColorLight),
                                                                           borderRadius:
                                                                               BorderRadius.circular(20),
                                                                         ),
@@ -184,11 +192,24 @@ class _SpellsBookPageState extends State<SpellsBookPage> {
                                                                             Center(
                                                                           child:
                                                                               TextFormField(
+                                                                                onTapOutside: (event) {
+                                                                                  FocusManager.instance.primaryFocus
+                                                                                      ?.unfocus();
+                                                                                  saveCharacterInfo();
+                                                                                },
+                                                                                onChanged:(e){
+                                                                                  saveCharacterInfo();},
+                                                                                onEditingComplete: (){
+                                                                                  saveCharacterInfo();},
                                                                             //initialValue: e.value.toString(),
-                                                                            controller:
-                                                                                spells[element.value.name]?[int.parse(e.key) - 1],
-                                                                            style:
-                                                                                Theme.of(context).textTheme.bodySmall,
+                                                                            controller: globalSpells[element
+                                                                                .value
+                                                                                .name]?[int.parse(
+                                                                                    e.key) -
+                                                                                1],
+                                                                            style: Theme.of(context)
+                                                                                .textTheme
+                                                                                .bodySmall,
                                                                             inputFormatters: [
                                                                               FilteringTextInputFormatter.digitsOnly,
                                                                               LengthLimitingTextInputFormatter(2),
@@ -213,167 +234,197 @@ class _SpellsBookPageState extends State<SpellsBookPage> {
                                                                         ))
                                                                   ],
                                                                 ),
-                                                                SizedBox(
-                                                                  height: 1.h,
-                                                                )
-                                                              ],
-                                                            ))
-                                                        .toList(),
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ))
-                                  .toList()),
-                          Card(
-                              color: OurColors.focusColorTileLight,
-                              clipBehavior: Clip.antiAlias,
-                              shape: RoundedRectangleBorder(
-                                // side: BorderSide(
-                                //   color: Colors.white,
-                                //   width: 1.0,
-                                // ),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: ExpansionTile(
-                                  collapsedBackgroundColor:
-                                      OurColors.focusColorTileLight,
-                                  backgroundColor:
-                                      OurColors.focusColorTileLight,
-                                  iconColor: Colors.white,
-                                  //  subtitle: Text(element.value.name,style: small,),
-                                  collapsedIconColor: Colors.white,
-                                  title: Text("Уровень заклинаний",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall
-                                          ?.copyWith(color: Colors.white)),
-                                  children: [
-                                    Container(
-                                        padding: EdgeInsets.all(12.dp),
-                                        color: Colors.white,
-                                        child: Column(
-                                            children: levels
-                                                .asMap()
-                                                .entries
-                                                .map((element) => Padding(
-                                                      padding:
-                                                          EdgeInsets.all(5.dp),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          // SizedBox(width: 2.w),
-                                                          element.key == 0
-                                                              ? Text(
-                                                                  element.value)
-                                                              : Text(
-                                                                  "${element.value} уровень"),
-                                                          SizedBox(width: 10.w),
-                                                          Container(
-                                                            width: 24.dp,
-                                                            height: 24.dp,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              border: Border.all(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  width: 1),
-                                                            ),
-                                                            child: Theme(
-                                                              data: ThemeData(
-                                                                  unselectedWidgetColor:
-                                                                      Colors
-                                                                          .white),
-                                                              child: Checkbox(
-                                                                checkColor:
+                                                              ),
+                                                              SizedBox(
+                                                                height: 1.h,
+                                                              )
+                                                            ],
+                                                          ))
+                                                      .toList(),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ))
+                                .toList()),
+                        Card(
+                            color: OurColors.focusColorTileLight,
+                            clipBehavior: Clip.antiAlias,
+                            shape: RoundedRectangleBorder(
+                              // side: BorderSide(
+                              //   color: Colors.white,
+                              //   width: 1.0,
+                              // ),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: ExpansionTile(
+                                collapsedBackgroundColor:
+                                    OurColors.focusColorTileLight,
+                                backgroundColor: OurColors.focusColorTileLight,
+                                iconColor: Colors.white,
+                                //  subtitle: Text(element.value.name,style: small,),
+                                collapsedIconColor: Colors.white,
+                                title: Text("Уровень заклинаний",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall
+                                        ?.copyWith(color: Colors.white)),
+                                children: [
+                                  Container(
+                                      padding: EdgeInsets.all(12.dp),
+                                      color: Colors.white,
+                                      child: Column(
+                                          children: levels
+                                              .asMap()
+                                              .entries
+                                              .map((element) => Padding(
+                                                    padding:
+                                                        EdgeInsets.all(5.dp),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        // SizedBox(width: 2.w),
+                                                        element.key == 0
+                                                            ? Text(
+                                                                element.value)
+                                                            : Text(
+                                                                "${element.value} уровень"),
+                                                        SizedBox(width: 10.w),
+                                                        Container(
+                                                          width: 24.dp,
+                                                          height: 24.dp,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            border: Border.all(
+                                                                color: Colors
+                                                                    .black,
+                                                                width: 1),
+                                                          ),
+                                                          child: Theme(
+                                                            data: ThemeData(
+                                                                unselectedWidgetColor:
                                                                     Colors
-                                                                        .black,
-                                                                activeColor: Colors
-                                                                    .transparent,
-                                                                tristate: false,
-                                                                value: checks[
-                                                                    element
-                                                                        .key],
-                                                                onChanged:
-                                                                    (bool?
-                                                                        value) {
-                                                                  setState(() {
-                                                                    checks[element
-                                                                            .key] =
-                                                                        value!;
+                                                                        .white),
+                                                            child: Checkbox(
+                                                              checkColor:
+                                                                  Colors.black,
+                                                              activeColor: Colors
+                                                                  .transparent,
+                                                              tristate: false,
+                                                              value: checks[
+                                                                  element.key],
+                                                              onChanged: (bool?
+                                                                  value) {
+                                                                setState(() {
+                                                                  checks[element
+                                                                          .key] =
+                                                                      value!;
 
-
-                                                                      currentSpells = [];
-                                                                      checks.asMap().entries.forEach((i) {
-                                                                        if(i.value==true) {
-                                                                          character.selectedSpells
-                                                                              .asMap()
-                                                                              .entries
-                                                                              .forEach((j) {
-                                                                            if(j.value.level==i.key ){
-                                                                              currentSpells.add(j.value);
-                                                                            }
-                                                                          });
+                                                                  characterBloc.add(DeleteAllSelectedSpellsEvent());
+                                                                  checks
+                                                                      .asMap()
+                                                                      .entries
+                                                                      .forEach(
+                                                                          (i) {
+                                                                    if (i.value ==
+                                                                        true) {
+                                                                      characterBloc.state.characters[index]
+                                                                          .knownSpells
+                                                                          .asMap()
+                                                                          .entries
+                                                                          .forEach(
+                                                                              (j) {
+                                                                        if (j.value.level ==
+                                                                            i.key) {
+                                                                          characterBloc.add(AddSelectedSpellEvent(j.value));
                                                                         }
                                                                       });
-
+                                                                    }
                                                                   });
-                                                                },
-                                                              ),
+                                                                    globalChecks=checks;
+                                                                });
+                                                              },
                                                             ),
                                                           ),
-                                                          SizedBox(width: 15.w),
-                                                        ],
-                                                      ),
-                                                    ))
-                                                .toList()))
-                                  ])),
-                          Column(
-                            children: currentSpells
-                                .asMap()
-                                .entries
-                                .map((e) => 
-                                Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 5.h,horizontal: 2.w),
-                                  child: Container(
-                                    padding: EdgeInsets.all(15.dp),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                              ),
+                                                        ),
+                                                        SizedBox(width: 15.w),
+                                                      ],
+                                                    ),
+                                                  ))
+                                              .toList()))
+                                ])),
+                        SizedBox(height: 4.w,),
+                        Column(
+                          children: characterBloc.state.currentSpells
+                              .asMap()
+                              .entries
+                              .map((e) => Padding(
+                                    padding: EdgeInsets.only(left: 2.w,right: 2.w,bottom: 1.h),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).pushNamed(
+                                            SpellDescription.routeName,
+                                            arguments: {"spell": e.value});
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.all(15.dp),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [Text(e.value.name),
-                                              Text(e.value.school,style: verySmall,),
-                                                Text(e.value.timeApplication,style: verySmall,)],
-
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(e.value.name),
+                                                Text(
+                                                  e.value.school,
+                                                  style: verySmall,
+                                                ),
+                                                Text(
+                                                  e.value.timeApplication,
+                                                  style: verySmall,
+                                                )
+                                              ],
                                             ),
                                             Column(
                                               children: [
                                                 e.value.level == 0
-                                                    ? Text("Фокус",style: small,)
+                                                    ? Text(
+                                                        "Фокус",
+                                                        style: small,
+                                                      )
                                                     : Text(
-                                                        "${e.value.level} уровень",style: small,),
+                                                        "${e.value.level} уровень",
+                                                        style: small,
+                                                      ),
                                                 Row(
-                                                  children: e.value.spellComponents.entries.map((comp) =>  Text("${comp.key}. ",style: small,) ).toList(),
+                                                  children: e.value
+                                                      .spellComponents.entries
+                                                      .map((comp) => Text(
+                                                            "${comp.key}. ",
+                                                            style: small,
+                                                          ))
+                                                      .toList(),
                                                 )
                                               ],
                                             )
                                           ],
                                         ),
                                       ),
-                                ))
-                                .toList(),
-                          )
-                        ],
-                      ),
+                                    ),
+                                  ))
+                              .toList(),
+                        )
+                      ],
                     ),
                   ),
                 ]),

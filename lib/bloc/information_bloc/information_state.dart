@@ -2,12 +2,12 @@ part of 'information_bloc.dart';
 
 @immutable
 class InformationState {
-  final List<ChClass> classes;
-  final List<ChRace> races;
-  final List<Feature> features;
-  final List<MagicSpell> spells;
+   List<ChClass> classes;
+   List<ChRace> races;
+   List<Feature> features;
+   List<MagicSpell> spells;
 
-  const InformationState(
+   InformationState(
       {this.classes = const [],
         this.spells=const [],
       this.features = const [],

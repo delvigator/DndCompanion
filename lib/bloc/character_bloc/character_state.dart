@@ -2,14 +2,17 @@ part of 'character_bloc.dart';
 
 @immutable
 class CharacterState {
-  final Character? currentCharacter;
-  final List<Character> characters;
+   int currentCharacter;
+   List<Character> characters;
+   List<MagicSpell> currentSpells; //заклинания выыбранные при филтрации в книге
 
-  const CharacterState({this.currentCharacter, this.characters=const []});
+   CharacterState({this.currentCharacter=-1, this.characters=const [],this.currentSpells=const []});
 
-  CharacterState copyWith({Character? currentCharacter, List<Character>?characters }) {
+  CharacterState copyWith({int? currentCharacter, List<Character>?characters, List<MagicSpell>? currentSpells }) {
     return CharacterState(
         currentCharacter: currentCharacter ?? this.currentCharacter,
-        characters: characters ?? this.characters);
+        characters: characters ?? this.characters,
+    currentSpells: currentSpells ?? this.currentSpells
+    );
   }
 }

@@ -111,135 +111,137 @@
         ]
       }
     ],
-    "characteristics": [
-     {
-        "name": "Мудрость",
-        "value": 0,
-        "skills": [
-          {
-            "name": "Спасбросок",
-            "mastery": false
-          },
-          {
-            "name": "Восприятие",
-            "mastery": false
-          },
-          {
-            "name": "Выживание",
-            "mastery": false
-          },
-          {
-            "name": "Медицина",
-            "mastery": false
-          },
-          {
-            "name": "Проницательность",
-            "mastery": false
-          },
-          {
-            "name": "Уход за животными",
-            "mastery": false
-          }
-        ]
-      },
-       {
-        "name": "Сила",
-        "value": 0,
-        "skills": [
-          {
-            "name": "Спасбросок",
-            "mastery": false
-          },
-          {
-            "name": "Атлетика",
-            "mastery": false
-          }
-        ]
-      },
-      {
-        "name": "Ловкость",
-        "value": 0,
-        "skills": [
-          {
-            "name": "Спасбросок",
-            "mastery": false
-          },
-          {
-            "name": "Акробатика",
-            "mastery": false
-          },
-          {
-            "name": "Ловкость рук",
-            "mastery": false
-          },
-          {
-            "name": "Скрытность",
-            "mastery": false
-          }
-        ]
-      },
-       {
-        "name": "Харизма",
-        "value": 0,
-        "skills": [
-          {
-            "name": "Спасбросок",
-            "mastery": false
-          },
-          {
-            "name": "Выступление",
-            "mastery": false
-          },
-          {
-            "name": "Запугивание",
-            "mastery": false
-          },
-          {
-            "name": "Обман",
-            "mastery": false
-          },
-          {
-            "name": "Убеждение",
-            "mastery": false
-          }
-        ]
-      },
-     {
-        "name": "Интеллект",
-        "value": 0,
-        "skills": [
-          {
-            "name": "Спасбросок",
-            "mastery": false
-          },
-          {
-            "name": "Анализ",
-            "mastery": false
-          },
-          {
-            "name": "История",
-            "mastery": false
-          },
-          {
-            "name": "Магия",
-            "mastery": false
-          },
-          {
-            "name": "Природа",
-            "mastery": false
-          },
-          {
-            "name": "Религия",
-            "mastery": false
-          }
-        ]
-      },
-      {
-        "name": "Телосложение",
-        "value": 0,
-        "skills": [
-        ]
-      }
+    "characteristics": {
+      "characteristics": [
+        {
+          "name": "Мудрость",
+          "value": 0,
+          "skills": [
+            {
+              "name": "Спасбросок",
+              "mastery": false
+            },
+            {
+              "name": "Восприятие",
+              "mastery": false
+            },
+            {
+              "name": "Выживание",
+              "mastery": false
+            },
+            {
+              "name": "Медицина",
+              "mastery": false
+            },
+            {
+              "name": "Проницательность",
+              "mastery": false
+            },
+            {
+              "name": "Уход за животными",
+              "mastery": false
+            }
+          ]
+        },
+        {
+          "name": "Сила",
+          "value": 0,
+          "skills": [
+            {
+              "name": "Спасбросок",
+              "mastery": false
+            },
+            {
+              "name": "Атлетика",
+              "mastery": false
+            }
+          ]
+        },
+        {
+          "name": "Ловкость",
+          "value": 0,
+          "skills": [
+            {
+              "name": "Спасбросок",
+              "mastery": false
+            },
+            {
+              "name": "Акробатика",
+              "mastery": false
+            },
+            {
+              "name": "Ловкость рук",
+              "mastery": false
+            },
+            {
+              "name": "Скрытность",
+              "mastery": false
+            }
+          ]
+        },
+        {
+          "name": "Харизма",
+          "value": 0,
+          "skills": [
+            {
+              "name": "Спасбросок",
+              "mastery": false
+            },
+            {
+              "name": "Выступление",
+              "mastery": false
+            },
+            {
+              "name": "Запугивание",
+              "mastery": false
+            },
+            {
+              "name": "Обман",
+              "mastery": false
+            },
+            {
+              "name": "Убеждение",
+              "mastery": false
+            }
+          ]
+        },
+        {
+          "name": "Интеллект",
+          "value": 0,
+          "skills": [
+            {
+              "name": "Спасбросок",
+              "mastery": false
+            },
+            {
+              "name": "Анализ",
+              "mastery": false
+            },
+            {
+              "name": "История",
+              "mastery": false
+            },
+            {
+              "name": "Магия",
+              "mastery": false
+            },
+            {
+              "name": "Природа",
+              "mastery": false
+            },
+            {
+              "name": "Религия",
+              "mastery": false
+            }
+          ]
+        },
+        {
+          "name": "Телосложение",
+          "value": 0,
+          "skills": [
+          ]
+        }
       ]
+    }
     }
 ]

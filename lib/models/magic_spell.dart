@@ -1,4 +1,8 @@
-class MagicSpell{
+import 'dart:convert';
+
+import 'package:equatable/equatable.dart';
+
+class MagicSpell extends Equatable{
   final String name;
   final String description;
   final String distance;
@@ -10,11 +14,11 @@ class MagicSpell{
    final String timeApplication;
   final String timeAction;
 
-  MagicSpell( {required this.name, required this.description, required this.distance, required this.classes,
+  const MagicSpell( {required this.name, required this.description, required this.distance, required this.classes,
       required this.school, required this.level, required this.isRitual, required this.spellComponents, required this.timeApplication,required this.timeAction,});
 
   factory MagicSpell.fromJson(Map<String,dynamic> json){
-    List<dynamic> classes=json["classes"];
+    List<dynamic> classes=json["classes"] is String ? jsonDecode(json["classes"]) : json["classes"];
     return MagicSpell(
         name: json["name"],
         description: json["description"],
@@ -26,4 +30,25 @@ class MagicSpell{
         spellComponents: Map.from(json["spellComponents"]),
         timeApplication: json["timeApplication"], timeAction: json["timeAction"]);
   }
+
+  @override
+  List<Object?> get props => [name];
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'description': description,
+      'distance': distance,
+      'classes': classes,
+      'school': school,
+      'level': level,
+      'isRitual': isRitual,
+      'spellComponents': spellComponents,
+      'timeApplication': timeApplication,
+      'timeAction': timeAction,
+
+    };
+  }
+
+
 }

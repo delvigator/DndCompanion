@@ -11,7 +11,6 @@ import 'bloc/character_bloc/character_bloc.dart';
 import 'models/characteristics.dart';
 import 'models/user_data.dart';
 
-
 CharacterBloc characterBloc = CharacterBloc();
 InformationBloc informationBloc = InformationBloc();
 final GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();

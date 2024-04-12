@@ -8,6 +8,7 @@ import 'package:dnd/pages/character_selector/character_creation/creation_race.da
 import 'package:dnd/pages/character_selector/character_creation/feature_description.dart';
 import 'package:dnd/pages/character_selector/character_creation/skills_selector.dart';
 import 'package:dnd/pages/character_selector/selection_page.dart';
+import 'package:dnd/pages/spells_book/spell_description.dart';
 import 'package:flutter/cupertino.dart';
 
 final Map<String, WidgetBuilder> routes = {
@@ -17,5 +18,6 @@ SelectionPage.routeName: (context)=> const SelectionPage(),
   CreationFinal.routeName: (context)=>const CreationFinal(),
   SkillsSelector.routeName:(context)=>const SkillsSelector(),
   CreationFeatures.routeName:(context)=>const CreationFeatures(),
-  FeatureDescription.routeName:(context)=>const FeatureDescription()
+  FeatureDescription.routeName:(context)=>const FeatureDescription(),
+  SpellDescription.routeName:(context)=>const SpellDescription()
 };

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 
 class ChClass extends Equatable {
   final String name;
@@ -43,6 +42,18 @@ for (var element in classSkillsPerLevel) {
 
   @override
   List<Object?> get props => [name];
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'level': level,
+      'classInfo': classInfo,
+      'classSkillsPerLevel': classSkillsPerLevel,
+      'classSkillsText': classSkillsText,
+    };
+  }
+
+
 }
 
 class ClassInfo {
@@ -61,6 +72,7 @@ class ClassInfo {
       required this.simpleSkills,
       required this.numberOfSimpleSkills});
 
+
   factory ClassInfo.fromJson(Map<String, dynamic> json) {
     List<dynamic> saves = json["saves"];
     List<dynamic> simpleSkills = json["simpleSkills"];
@@ -73,6 +85,19 @@ class ClassInfo {
         numberOfSimpleSkills: json["numberOfSimpleSkills"],
         description: json["description"]);
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'hitDice': hitDice,
+      'startHealth': startHealth,
+      'description': description,
+      'saves': saves,
+      'simpleSkills': simpleSkills,
+      'numberOfSimpleSkills': numberOfSimpleSkills,
+    };
+  }
+
+
 }
 
 class ClassSkillsText {
@@ -84,9 +109,18 @@ class ClassSkillsText {
 
   factory ClassSkillsText.fromJson(Map<String, dynamic> json) {
     return ClassSkillsText(
-        title: json["tittle"],
+        title: json["title"] ?? "",
         text: json["text"]);
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'text': text,
+    };
+  }
+
+
 }
 
 class ClassSkillUnit {
@@ -100,6 +134,15 @@ class ClassSkillUnit {
         skillName: json["skillName"],
         skillDescription: json["skillDescription"]);
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'skillName': skillName,
+      'skillDescription': skillDescription,
+    };
+  }
+
+
 }
 
 class ClassSkillsPerLevel {
@@ -129,4 +172,18 @@ class ClassSkillsPerLevel {
         spellSlots: Map<String,int>.from(json["spellSlots"]),
         classSkills: List<ClassSkillUnit>.generate(listUnits.length, (index) => ClassSkillUnit.fromJson(listUnits[index])));
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'level': level,
+      'masteryBonus': masteryBonus,
+      'classSkills': classSkills,
+      'numberKnownSpells': numberKnownSpells,
+      'numberKnownFocuses': numberKnownFocuses,
+      'spellSlots': spellSlots,
+
+    };
+  }
+
+
 }

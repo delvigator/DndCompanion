@@ -6,6 +6,7 @@ import 'package:dnd/components/our_colors.dart';
 import 'package:dnd/global_vars.dart';
 import 'package:dnd/models/user_data.dart';
 import 'package:dnd/pages/character_selector/character_creation/creation_race.dart';
+import 'package:dnd/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
@@ -24,6 +25,10 @@ class _SelectionPageState extends State<SelectionPage> {
   @override
   void initState() {
     super.initState();
+    setState(() {
+      readPrefs(context);
+    });
+
   }
 
   @override
@@ -43,7 +48,7 @@ class _SelectionPageState extends State<SelectionPage> {
         body: BlocBuilder<CharacterBloc, CharacterState>(
           bloc: characterBloc,
           builder: (context, state) {
-            characterBloc.add(LoadDataEvent(context));
+           // characterBloc.add(LoadDataEvent(context));
             return SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.all(15.dp),

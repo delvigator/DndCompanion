@@ -79,8 +79,6 @@ class _CreationRaceState extends State<CreationRace> {
                                         : OurColors.focusColor,
                                     text: e.name,
                                     onPress: () {
-                                      debugPrint(currentRace?.name);
-                                      debugPrint(e.name);
                                       setState(() {
                                         currentRace = e;
                                         currentSubRace = null;
@@ -127,8 +125,6 @@ class _CreationRaceState extends State<CreationRace> {
                                               : OurColors.focusColorLight,
                                           text: e.name,
                                           onPress: () {
-                                            debugPrint(currentRace?.name);
-                                            debugPrint(e.name);
                                             setState(() {
                                               currentSubRace = e;
                                             });

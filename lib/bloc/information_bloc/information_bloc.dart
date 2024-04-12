@@ -14,7 +14,7 @@ part 'information_event.dart';
 part 'information_state.dart';
 
 class InformationBloc extends Bloc<InformationEvent, InformationState> {
-  InformationBloc() : super(const InformationState()) {
+  InformationBloc() : super( InformationState()) {
     on<LoadRacesEvent>(_onLoadRacesEvent);
     on<LoadClassesEvent>(_onLoadClassesEvent);
     on<LoadFeaturesEvent>(_onLoadFeaturesEvent);

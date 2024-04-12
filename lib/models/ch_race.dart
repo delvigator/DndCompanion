@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'characteristics.dart';
 
@@ -23,9 +26,9 @@ class ChRace extends Equatable {
       required this.skillBoost});
 
   factory ChRace.fromJson(Map<String, dynamic> json) {
-    List<dynamic> peculiarities = json["peculiarities"];
-    List<dynamic> skills = json["skillMastery"];
-    List<dynamic> subRace = json["subRace"];
+    List<dynamic> peculiarities = json["peculiarities"] is String ? jsonDecode(json["peculiarities"]) : json["peculiarities"];
+    List<dynamic> skills = json["skillMastery"]is String ? jsonDecode(json["skillMastery"]) : json["skillMastery"];
+    List<dynamic> subRace = json["subRace"]is String ? jsonDecode(json["subRace"]) : json["subRace"];
     return ChRace(
       name: json["name"],
       description: json["description"],
@@ -33,7 +36,7 @@ class ChRace extends Equatable {
           (index) => Peculiarities.fromJson(peculiarities[index])),
       skillMastery: List<Skill>.generate(
           skills.length, (index) => Skill.fromJson(skills[index])),
-      skillBoost: Map<String, int>.from(json["skillBoost"]),
+      skillBoost: json["skillBoost"] is String ? Map<String, int>.from(jsonDecode(json["skillBoost"])) : Map<String, int>.from(json["skillBoost"]),
       subRace: List<ChRace>.generate(
           subRace.length, (index) => ChRace.fromJson(subRace[index])), numberFeatures: json["numberFeatures"],
     );
@@ -41,6 +44,20 @@ class ChRace extends Equatable {
 
   @override
   List<Object?> get props => [name,description,subRace];
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'description': description,
+      'subRace': jsonEncode(subRace),
+      'peculiarities': jsonEncode(peculiarities),
+      'skillMastery': jsonEncode(skillMastery),
+      'skillBoost': jsonEncode(skillBoost),
+      'numberFeatures': numberFeatures,
+    };
+  }
+
+
 }
 
 class Peculiarities {
@@ -52,4 +69,13 @@ class Peculiarities {
   factory Peculiarities.fromJson(Map<String, dynamic> json) {
     return Peculiarities(title: json["title"], text: json["text"]);
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'text': text,
+    };
+  }
+
+
 }

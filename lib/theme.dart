@@ -44,6 +44,11 @@ TextTheme textTheme(){
     fontSize: 16.dp,
       fontFamily: "Inter"
     ),
+        titleLarge: TextStyle(
+            color: OurColors.textColorWhite,
+            fontSize: 20.dp,
+            fontFamily: "Inter"
+        ),
         titleSmall: TextStyle(
             color: OurColors.textColorWhite,
             fontSize: 12.dp,

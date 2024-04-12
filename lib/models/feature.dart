@@ -13,4 +13,16 @@ class Feature{
     return Feature(name: json["name"], description: json["description"], peculiarities: List<Peculiarities>.generate(peculiarities.length,
             (index) => Peculiarities.fromJson(peculiarities[index])), bonuses: Map.from(json["bonuses"]));
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'description': description,
+      'peculiarities': peculiarities,
+      'bonuses': bonuses,
+
+    };
+  }
+
+
 }

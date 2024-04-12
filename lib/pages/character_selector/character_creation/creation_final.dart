@@ -10,6 +10,7 @@ import 'package:dnd/models/characteristics.dart';
 import 'package:dnd/pages/character_selector/character_creation/creation_features.dart';
 import 'package:dnd/pages/character_selector/character_creation/skills_selector.dart';
 import 'package:dnd/pages/character_selector/selection_page.dart';
+import 'package:dnd/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,7 +39,7 @@ class _CreationFinalState extends State<CreationFinal> {
 
   final maxLengthDescription = 300;
   final TextEditingController nameController = TextEditingController();
-  final maxLengthName = 50;
+  final maxLengthName = 30;
   final TextEditingController ideologyController = TextEditingController();
   final TextEditingController healthController = TextEditingController();
   final maxLengthIdeology = 30;
@@ -849,6 +850,8 @@ class _CreationFinalState extends State<CreationFinal> {
                                                   chClass: [currentClass],
                                                   characteristics: ch,
                                                   characterInfo: CharacterInfo(
+                                                    
+                                                    experiencePoints: 0,
                                                       currentHealth: int.parse(
                                                           healthController
                                                               .text),
@@ -859,13 +862,16 @@ class _CreationFinalState extends State<CreationFinal> {
                                                           getMod(
                                                               "Ловкость",
                                                               currentRace,
-                                                              currentSubRace)),
+                                                              currentSubRace), initiative: 0, tempHealth: 0, speed: 30, mastery: 2),
                                                   description:
                                                       descriptionController
-                                                          .text);
+                                                          .text,
+                                                  subRace:currentSubRace, knownSpells: const [] );
                                               characterBloc
                                                   .add(AddItemEvent(character));
                                               Navigator.of(context).popUntil((route) => route.isFirst);
+                                              saveCharacterInfo();
+                                              saveInfo();
                                             }
                                           }),
                                     )

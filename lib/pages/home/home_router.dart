@@ -1,8 +1,10 @@
 
 
+import 'package:dnd/global_vars.dart';
 import 'package:dnd/pages/inventory/inventory_page.dart';
 import 'package:dnd/pages/notes/notes_page.dart';
 import 'package:dnd/pages/spells_book/spells_page.dart';
+import 'package:dnd/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -17,6 +19,14 @@ class HomeRouter extends StatefulWidget {
 }
 
 class _HomeRouterState extends State<HomeRouter> {
+  @override
+  void initState() {
+    // setState(() {
+    //   readPrefs(context);
+    // });
+
+    super.initState();
+  }
   int selectedIndex = 0;
   void _onItemTapped(int index) {
     setState(() {

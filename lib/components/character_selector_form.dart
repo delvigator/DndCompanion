@@ -2,6 +2,7 @@ import 'package:dnd/bloc/character_bloc/character_bloc.dart';
 import 'package:dnd/components/our_colors.dart';
 import 'package:dnd/components/wigets.dart';
 import 'package:dnd/global_vars.dart';
+import 'package:dnd/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
@@ -29,7 +30,7 @@ class _CharacterSelectorFormState extends State<CharacterSelectorForm> {
       bloc: characterBloc,
       builder: (context, state) {
         return Card(
-          color: characterBloc.state.currentCharacter == widget.character ? OurColors.lightPink : OurColors.focusColor,
+          color: characterBloc.state.currentCharacter == characterBloc.state.characters.indexOf(widget.character)  ? OurColors.lightPink : OurColors.focusColor,
           clipBehavior: Clip.antiAlias,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
@@ -50,7 +51,7 @@ class _CharacterSelectorFormState extends State<CharacterSelectorForm> {
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
 
-                characterBloc.state.currentCharacter == widget.character ?
+                characterBloc.state.currentCharacter == characterBloc.state.characters.indexOf(widget.character) ?
                 const Text("Текущий",style: TextStyle(color: OurColors.focusColorLight),) : Container()
               ],
             ),
@@ -81,7 +82,7 @@ class _CharacterSelectorFormState extends State<CharacterSelectorForm> {
                         ],
                       ),
                     ),
-                    characterBloc.state.currentCharacter != widget.character ?
+                    characterBloc.state.currentCharacter != characterBloc.state.characters.indexOf(widget.character) ?
                     Container(
                       height: 5.h,
                       width: 40.w,
@@ -92,7 +93,7 @@ class _CharacterSelectorFormState extends State<CharacterSelectorForm> {
                       child: TextButton(
                         onPressed: () {
                           setState(() {
-                            characterBloc.add(SelectEvent(widget.character));
+                            characterBloc.add(SelectEvent(characterBloc.state.characters.indexOf(widget.character)));
                           });
 
                         },
