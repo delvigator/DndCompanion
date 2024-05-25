@@ -11,13 +11,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/character.dart';
+import 'models/item.dart';
 Future<void> readInfo() async {
-
+  debugPrint("Reading information....");
   SharedPreferences prefs = await SharedPreferences.getInstance();
  var data = jsonDecode(prefs.getString("classes")!);
   if(data!=null) {
     informationBloc.state.classes = List<ChClass>.generate(
         data.length, (index) => ChClass.fromJson(data[index]));
+  }
+  data = jsonDecode(prefs.getString("customItems")!);
+  if(data!=null) {
+    informationBloc.state.customItems = List<Item>.generate(
+        data.length, (index) => Item.fromJson(data[index]));
+  }
+  data = jsonDecode(prefs.getString("items")!);
+  if(data!=null) {
+    informationBloc.state.items = List<Item>.generate(
+        data.length, (index) => Item.fromJson(data[index]));
   }
   data = jsonDecode(prefs.getString("races")!);
   if(data!=null) {
@@ -36,8 +47,10 @@ Future<void> readInfo() async {
   }
 }
 Future<void> readPrefs(BuildContext context) async {
+  debugPrint("Read character information....");
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var data = jsonDecode((prefs.getString("characters")!));
+  debugPrint(prefs.getString("characters")!);
   List<Character> result=[];
   result = List<Character>.generate(
       data.length, (index) => Character.fromJson(data[index]));
@@ -70,7 +83,7 @@ characterBloc.add(ChangeCharactersEvent(result));
 }
 
 void saveCharacterInfo() {
-
+debugPrint("Saving character information....");
   List<String> resultList = [];
   Map<String,List<String>> spells={};
   globalSpells.forEach((key, value) {
@@ -95,7 +108,9 @@ void saveInfo() {
     "classes": jsonEncode(informationBloc.state.classes),
     "races": jsonEncode(informationBloc.state.races),
     "spells": jsonEncode(informationBloc.state.spells),
-    "features": jsonEncode(informationBloc.state.features)
+    "features": jsonEncode(informationBloc.state.features),
+    "customItems":jsonEncode(informationBloc.state.customItems),
+    "items":jsonEncode(informationBloc.state.items)
   };
   savePrefs(map);
 }

@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
 class ChClass extends Equatable {
   final String name;
-  final int level;
+  int level;
   final ClassInfo classInfo;
   final List<ClassSkillsPerLevel> classSkillsPerLevel;
   final List<ClassSkillsText> classSkillsText;
@@ -18,7 +21,7 @@ for (var element in classSkillsPerLevel) {
     return result;
   }
 
-  const ChClass({
+  ChClass({
     required this.name,
     required this.level,
     required this.classInfo,
@@ -27,8 +30,9 @@ for (var element in classSkillsPerLevel) {
   });
 
   factory ChClass.fromJson(Map<String, dynamic> json) {
+    debugPrint(json["classSkillsText"]);
     List<dynamic> listSkills = json["classSkillsPerLevel"];
-    List<dynamic> listText = json["classSkillsText"];
+    List<dynamic> listText = json["classSkillsTexts"];
     return ChClass(
         name: json["name"],
         level: json["level"],

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 
+import '../../../components/snack_bar.dart';
 import '../../../models/ch_race.dart';
 
 class CreationRace extends StatefulWidget {
@@ -21,7 +22,11 @@ class CreationRace extends StatefulWidget {
 class _CreationRaceState extends State<CreationRace> {
   ChRace? currentRace;
   ChRace? currentSubRace;
-
+@override
+  void initState() {
+  informationBloc.add(LoadRacesEvent(context));
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -36,11 +41,12 @@ class _CreationRaceState extends State<CreationRace> {
         body: BlocBuilder<InformationBloc, InformationState>(
           bloc: informationBloc,
           builder: (context, state) {
-            informationBloc.add(LoadRacesEvent(context));
+          //  informationBloc.add(LoadRacesEvent(context));
             return SingleChildScrollView(
                 child: Padding(
               padding: EdgeInsets.all(20.dp),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                       padding: EdgeInsets.only(bottom: 10.w),
@@ -88,14 +94,14 @@ class _CreationRaceState extends State<CreationRace> {
                               .toList()),
                     ),
                   ),
-                  currentRace != null && currentRace!.subRace.isNotEmpty
+                  currentRace != null && currentRace!.subRace!.isNotEmpty
                       ? Container(
                           padding: EdgeInsets.symmetric(vertical: 10.w),
                           alignment: Alignment.topLeft,
                           child: Text("Выберите разновидность",
                               style: Theme.of(context).textTheme.titleMedium))
                       : Container(),
-                  currentRace != null && currentRace!.subRace.isNotEmpty
+                  currentRace != null && currentRace!.subRace!.isNotEmpty
                       ? ShaderMask(
                           shaderCallback: (Rect bounds) {
                             return LinearGradient(
@@ -119,10 +125,10 @@ class _CreationRaceState extends State<CreationRace> {
                                 crossAxisSpacing: 10,
                                 mainAxisSpacing: 10,
                                 children: currentRace!.subRace
-                                    .map((e) => DefaultButton(
+                                    !.map((e) => DefaultButton(
                                           primaryColor: currentSubRace == e
                                               ? OurColors.lightPink
-                                              : OurColors.focusColorLight,
+                                              : OurColors.focusColorTileLight,
                                           text: e.name,
                                           onPress: () {
                                             setState(() {
@@ -241,30 +247,39 @@ class _CreationRaceState extends State<CreationRace> {
                           ],
                         )
                       : Container(),
-                  currentRace != null &&
-                          (currentSubRace != null ||
-                              currentRace!.subRace.isEmpty)
-                      ? Column(
+                   Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
+                            SizedBox(height: currentRace==null ? 55.h : 0),
                             Container(
-                                padding: EdgeInsets.all(5.w),
-                                width: 50.w,
                                 alignment: Alignment.bottomRight,
                                 child: DefaultButton(
+                                  primaryColor: OurColors.focusColorLight,
                                   text: "Далее",
                                   onPress: () {
-                                    Navigator.of(context).pushNamed(
+                                    if( currentRace != null &&
+                                        (currentSubRace != null ||
+                                            currentRace!.subRace!.isEmpty)) {
+                                      Navigator.of(context).pushNamed(
                                         CreationClass.routeName,
                                         arguments: {
                                           "currentRace": currentRace,
-                                          "currentSubRace": currentSubRace
+                                          "currentSubRace": currentSubRace,
+                                          "mod":0
                                         });
+                                    }
+                                    else if( currentRace == null){
+                                      showSnackBar("Выберите расу");
+                                    }
+                                    else if( currentSubRace == null &&
+                                        currentRace!.subRace!.isNotEmpty){
+                                      showSnackBar("Выберите разновидность");
+                                    }
                                   },
                                 )),
                           ],
                         )
-                      : Container()
+
                 ],
               ),
             ));

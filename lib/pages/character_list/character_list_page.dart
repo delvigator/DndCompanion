@@ -1,7 +1,11 @@
 import 'dart:io';
 
 import 'package:dnd/bloc/character_bloc/character_bloc.dart';
+import 'package:dnd/components/showbar_modal_bottom_sheet1.dart';
 import 'package:dnd/models/character_info.dart';
+import 'package:dnd/pages/character_list/character_edit_page.dart';
+import 'package:dnd/pages/character_list/skill_bottom_sheet.dart';
+import 'package:dnd/pages/character_selector/character_creation/creation_class.dart';
 import 'package:dnd/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -115,20 +119,65 @@ class _CharacterListPageState extends State<CharacterListPage> {
         }
         return Scaffold(
           appBar: AppBar(
-            title: characterBloc.state.currentCharacter != -1 ? Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            title: characterBloc.state.currentCharacter != -1 ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  characterBloc.state.characters[currentCh].name, style: Theme
-                    .of(context)
-                    .textTheme
-                    .titleMedium,),
-                Text(characterBloc.state.characters[currentCh].chRace.name,
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .bodyMedium
-                      ?.copyWith(color: Colors.white60),)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      characterBloc.state.characters[currentCh].name, style: Theme
+                        .of(context)
+                        .textTheme
+                        .titleMedium,),
+                    Text(characterBloc.state.characters[currentCh].chRace.name,
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .bodyMedium
+                          ?.copyWith(color: Colors.white60),)
+                  ],
+                ),
+                Row(
+                  children: [
+                    Container(
+                      width: 10.w,
+                      height: 5.h,
+                      decoration: const BoxDecoration(
+                        color: OurColors.focusColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, CreationClass.routeName,arguments: {"mod":1}).then((_) => setState(() {}));
+                          },
+                          icon:  Icon(Icons.keyboard_double_arrow_up,size: 17.dp,),
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 3.w,),
+                    Container(
+                      width: 10.w,
+                      height: 5.h,
+                      decoration: const BoxDecoration(
+                        color: OurColors.focusColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, CharacterEditPage.routeName).then((_) => setState(() {}));
+                          },
+                          icon:  Icon(Icons.edit,size: 17.dp,),
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                     SizedBox(width: 5.w,)
+                ],),
+
               ],
             ) : Container(),
           ),
@@ -414,7 +463,7 @@ class _CharacterListPageState extends State<CharacterListPage> {
                           child: getBox(big, "ОЗ, временные", tempHpController, () {
                             CharacterInfo characterInfo = characterBloc.state
                                 .characters[currentCh].characterInfo.copyWith(
-                                speed: int.parse(tempHpController.text));
+                                tempHealth: int.parse(tempHpController.text));
                             Character character = characterBloc.state
                                 .characters[currentCh].copyWith(
                                 characterInfo: characterInfo);
@@ -529,74 +578,79 @@ class _CharacterListPageState extends State<CharacterListPage> {
     );
   }
 Widget getCh(String text){
-    return   Stack(
-        children:[
-          Container(
-            width: 25.w,
-            height: 13.h,
-            color: OurColors.backgroundColor,
-          ),
-          Container(
-            width: 25.w,
-            height: 11.h,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white),
-            child: Container(
-              padding: EdgeInsets.all(5.dp),
-              child: Column(
-                children: [
-                  Text(
-                    text,
-                    textAlign: TextAlign.center,
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .bodySmall
-                        ?.copyWith(fontSize: 8.dp),
-                  ),
-                  SizedBox(height: 1.h,),
-                  Text(
-                  ((characterBloc.state.characters[currentCh].characteristics.getCharacteristicByName(text)-10)/2).floor().toString() ,
-                    textAlign: TextAlign.center,
-                    style:  Theme
-                        .of(context)
-                        .textTheme.titleMedium
-                        ?.copyWith(color: Colors.black),
-                  ),
-                ],
-              ),
+    return   GestureDetector(
+      onTap: (){
+      showBarModalBottomSheet1(context: context, builder: (context)=>SkillBottomSheet( skill: text,));
+      },
+      child: Stack(
+          children:[
+            Container(
+              width: 25.w,
+              height: 13.h,
+              color: OurColors.backgroundColor,
             ),
-          ),
-          Positioned(
-              bottom: 0,
-              left: 20,
-              right: 20,
-              child:
-              SizedBox(
-                child: Container(
-                  width: 0.5.w,
-                  height: 5.h,
-                  decoration:  BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(100),bottom: Radius.circular(100)),
-                      color: Colors.white
-                  ),
-                  child: Center(
-                    child: Text(
-                      characterBloc.state.characters[currentCh].characteristics.getCharacteristicByName(text).toString(),
+            Container(
+              width: 25.w,
+              height: 11.h,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white),
+              child: Container(
+                padding: EdgeInsets.all(5.dp),
+                child: Column(
+                  children: [
+                    Text(
+                      text,
                       textAlign: TextAlign.center,
                       style: Theme
                           .of(context)
-                          .textTheme.bodyMedium
+                          .textTheme
+                          .bodySmall
+                          ?.copyWith(fontSize: 8.dp),
+                    ),
+                    SizedBox(height: 1.h,),
+                    Text(
+                    ((characterBloc.state.characters[currentCh].characteristics.getCharacteristicByName(text)-10)/2).floor().toString() ,
+                      textAlign: TextAlign.center,
+                      style:  Theme
+                          .of(context)
+                          .textTheme.titleMedium
+                          ?.copyWith(color: Colors.black),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+                bottom: 0,
+                left: 20,
+                right: 20,
+                child:
+                SizedBox(
+                  child: Container(
+                    width: 0.5.w,
+                    height: 5.h,
+                    decoration:  BoxDecoration(
+                        border: Border.all(color: Colors.black),
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(100),bottom: Radius.circular(100)),
+                        color: Colors.white
+                    ),
+                    child: Center(
+                      child: Text(
+                        characterBloc.state.characters[currentCh].characteristics.getCharacteristicByName(text).toString(),
+                        textAlign: TextAlign.center,
+                        style: Theme
+                            .of(context)
+                            .textTheme.bodyMedium
 
 
-                          ?.copyWith(fontSize: 13.dp),
+                            ?.copyWith(fontSize: 13.dp),
+                      ),
                     ),
                   ),
-                ),
-              ))
-        ]
+                ))
+          ]
+      ),
     );
 }
 }

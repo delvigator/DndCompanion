@@ -4,8 +4,18 @@ part of 'character_bloc.dart';
 class CharacterState {
    int currentCharacter;
    List<Character> characters;
-   List<MagicSpell> currentSpells; //заклинания выыбранные при филтрации в книге
+   //заклинания выыбранные при филтрации в книге
+   List<MagicSpell> currentSpells;
 
+   Character? getByName(String name){
+     debugPrint(name);
+     Character? result;
+     for (var element in characters) {
+       if(element.name==name) result=element;
+     }
+     debugPrint(result.toString());
+         return result;
+  }
    CharacterState({this.currentCharacter=-1, this.characters=const [],this.currentSpells=const []});
 
   CharacterState copyWith({int? currentCharacter, List<Character>?characters, List<MagicSpell>? currentSpells }) {

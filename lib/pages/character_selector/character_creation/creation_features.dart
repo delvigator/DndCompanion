@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 
 import '../../../components/our_colors.dart';
+import '../../character_list/character_edit_page.dart';
 import 'creation_final.dart';
 
 class CreationFeatures extends StatefulWidget {
@@ -29,9 +30,10 @@ class _CreationFeaturesState extends State<CreationFeatures> {
   Widget build(BuildContext context) {
     final args = (ModalRoute.of(context)?.settings.arguments ??
         <String, dynamic>{}) as Map;
-    ChRace currentRace = args["currentRace"];
+    ChRace? currentRace = args["currentRace"];
     ChRace? currentSubRace = args["currentSubRace"];
-    if(maxNumber==0){maxNumber=currentRace.numberFeatures+(currentSubRace?.numberFeatures ?? 0);}
+    int mod=args["mod"];
+    if(maxNumber==0 && mod!=1){maxNumber=((currentRace?.numberFeatures)!+(currentSubRace?.numberFeatures ?? 0));}
     return Scaffold(
       appBar: AppBar(
           title: const Text("Черты"),
@@ -39,25 +41,35 @@ class _CreationFeaturesState extends State<CreationFeatures> {
             color: Colors.white,
           )),
       floatingActionButton: FloatingActionButton(
-          onPressed: () {selectedFeatures=List.from(result);},
+          onPressed: () {
+            mod==0?
+            selectedFeatures=List.from(result): selectedFeaturesEdit=List.from(result);
+            result=[];
+            Navigator.of(context).pop();},
           shape: const CircleBorder(),
-          backgroundColor: OurColors.focusColor,
+          backgroundColor: OurColors.focusColorLight,
           foregroundColor: Colors.black,
           child: const Icon(Icons.check)),
       body: BlocBuilder<InformationBloc, InformationState>(
         bloc: informationBloc,
         builder: (context, state) {
           if (values.isEmpty) {
-            values = List.generate(
+            values = mod==0 ? List.generate(
                 informationBloc.state.features.length,
                     (index) =>
                     selectedFeatures.contains(informationBloc.state.features[index].name)
+                    ? true
+                    : false) : List.generate(
+                informationBloc.state.features.length,
+                    (index) =>
+                selectedFeaturesEdit.contains(informationBloc.state.features[index].name)
                     ? true
                     : false);
             for (var element in values) {
               if (element == true) currentNumber++;
             }
-            for (var element in selectedFeatures) {
+
+            for (var element in mod==0 ? selectedFeatures : selectedFeaturesEdit) {
               if(!result.contains(element)) result.add(element);
             }
           }
@@ -77,13 +89,13 @@ class _CreationFeaturesState extends State<CreationFeatures> {
                 SizedBox(
                   height: 4.h,
                 ),
-                Text(
+                mod== 0 ? Text(
                   "Можно выбрать: ${maxNumber-currentNumber}",
                   style: Theme
                       .of(context)
                       .textTheme.bodySmall
                       ?.copyWith(color: Colors.white),
-                ),
+                ) : Container(),
                 SizedBox(
                   height: 4.h,
                 ),
@@ -118,7 +130,7 @@ class _CreationFeaturesState extends State<CreationFeatures> {
                             ),
                             value: values[e.key],
                             onChanged: (bool? value) {
-                              if(currentNumber<maxNumber && value==true) {
+                              if((currentNumber<maxNumber || mod==1) && value==true) {
                                 setState(() {
                                   values[e.key] = value!;
                                   currentNumber++;

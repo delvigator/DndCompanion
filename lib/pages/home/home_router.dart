@@ -8,9 +8,10 @@ import 'package:dnd/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../bloc/information_bloc/information_bloc.dart';
 import '../character_list/character_list_page.dart';
 import '../character_selector/selection_page.dart';
-
+int selectedIndex = 0;
 class HomeRouter extends StatefulWidget {
   const HomeRouter({super.key,});
 
@@ -21,13 +22,14 @@ class HomeRouter extends StatefulWidget {
 class _HomeRouterState extends State<HomeRouter> {
   @override
   void initState() {
+    //informationBloc.add(LoadClassesEvent(context));
     // setState(() {
     //   readPrefs(context);
     // });
 
     super.initState();
   }
-  int selectedIndex = 0;
+
   void _onItemTapped(int index) {
     setState(() {
       selectedIndex = index;
@@ -41,6 +43,7 @@ class _HomeRouterState extends State<HomeRouter> {
       body:_getBody(selectedIndex),
       bottomNavigationBar:
       BottomNavigationBar(
+        key: scaffoldKey,
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: false,
         showUnselectedLabels: false,

@@ -34,6 +34,7 @@ class _SpellDescriptionState extends State<SpellDescription> {
             return Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                characterBloc.state.currentCharacter!=-1 ?
                 SizedBox(
                     width: 35.w,
                     height: 5.h,
@@ -55,7 +56,9 @@ class _SpellDescriptionState extends State<SpellDescription> {
                     });
 
                   },
-                ))
+                )
+               ) :
+                Container()
               ],
             );
           },

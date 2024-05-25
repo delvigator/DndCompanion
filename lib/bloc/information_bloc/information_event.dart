@@ -24,3 +24,13 @@ class LoadSpellsEvent extends InformationEvent {
 
   LoadSpellsEvent(this.context);
 }
+class LoadItemsEvent extends InformationEvent {
+  final BuildContext? context;
+
+  LoadItemsEvent(this.context);
+}
+
+class AddCustomItemsEvent extends InformationEvent {
+  final Item item;
+  AddCustomItemsEvent(this.item);
+}

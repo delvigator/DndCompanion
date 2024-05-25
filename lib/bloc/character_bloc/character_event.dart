@@ -13,10 +13,13 @@ class LoadDataEvent extends CharacterEvent{
 
   LoadDataEvent(this.context);
 }
-class AddItemEvent extends CharacterEvent{
+class AddCharacterEvent extends CharacterEvent{
   final Character character;
 
-  AddItemEvent(this.character);
+  AddCharacterEvent(this.character);
+}
+class DeleteCurrentCharacterEvent extends CharacterEvent{
+
 }
 
 class AddSelectedSpellEvent extends CharacterEvent {
@@ -52,4 +55,45 @@ class ChangeCharacterEvent extends CharacterEvent{
   final Character character;
 
   ChangeCharacterEvent(this.character);
+}
+
+class AddItemEvent extends CharacterEvent {
+  final ItemInInventory item;
+
+  AddItemEvent(this.item);
+}
+class DeleteItemEvent extends CharacterEvent {
+  final ItemInInventory item;
+
+  DeleteItemEvent(this.item);
+}
+
+class EquipItemEvent extends CharacterEvent {
+  final ItemInInventory item;
+
+  EquipItemEvent(this.item);
+}
+class DisequipItemEvent extends CharacterEvent {
+  final ItemInInventory item;
+
+  DisequipItemEvent(this.item);
+}
+
+class AddNoteEvent extends CharacterEvent{
+   final Note note;
+
+   AddNoteEvent(this.note);
+}
+
+class DeleteNoteEvent extends CharacterEvent{
+  final Note note;
+
+  DeleteNoteEvent(this.note);
+}
+
+class SaveNoteEvent extends CharacterEvent{
+  final Note noteOld;
+  final Note noteNew;
+
+  SaveNoteEvent(this.noteOld, this.noteNew);
 }

@@ -55,8 +55,8 @@ class _AllSpellsState extends State<AllSpells> {
     return BlocBuilder<InformationBloc, InformationState>(
       bloc: informationBloc,
       builder: (context, state) {
-        informationBloc.add(LoadClassesEvent(context));
-        informationBloc.add(LoadSpellsEvent(context));
+        // informationBloc.add(LoadClassesEvent(context));
+        // informationBloc.add(LoadSpellsEvent(context));
         if (classes.isEmpty) classes = informationBloc.state.classes;
         if (checkClasses.isEmpty) {
           checkClasses = List.generate(classes.length, (index) => true);

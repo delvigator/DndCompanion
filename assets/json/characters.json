@@ -1,6 +1,5 @@
 [
   {
-    "id": 1,
     "level": 5,
     "selectedSpells": [{
       "name": "Брызги кислоты",
@@ -112,7 +111,7 @@
       }
     ],
     "characteristics": {
-      "characteristics": [
+      "characteristicsList": [
         {
           "name": "Мудрость",
           "value": 0,

@@ -1,7 +1,7 @@
 import 'package:dnd/components/our_colors.dart';
 import 'package:flutter/material.dart';
 
-Future<void> showMyDialog(String title,String text,Function onPressed, BuildContext context) async {
+Future<void> showMyDialog(String title,String text,Function (BuildContext context)onPressed, BuildContext context) async {
   return showDialog<void>(
     context: context,
     barrierDismissible: false, // user must tap button!
@@ -21,7 +21,7 @@ Future<void> showMyDialog(String title,String text,Function onPressed, BuildCont
             style: TextButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.bodySmall?.copyWith(color: OurColors.focusColorLight)
             ),
-            onPressed: () => Navigator.pop(context, 'OK'),
+            onPressed:()=> onPressed(context),
             child: const Text('OK'),
           ),
         ],

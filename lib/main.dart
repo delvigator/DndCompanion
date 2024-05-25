@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 
 import 'global_vars.dart';
-import 'models/user_data.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

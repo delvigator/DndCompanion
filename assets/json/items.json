@@ -1,0 +1,11 @@
+[
+  {
+    "name": "Палка",
+    "price": "5 ЗМ",
+    "weight": 4,
+    "type": "Предмет",
+    "equipable": true,
+    "description": "Обычная палка",
+    "rarity": "Обычный"
+  }
+]

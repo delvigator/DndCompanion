@@ -9,7 +9,6 @@ import 'package:dnd/models/character_info.dart';
 import 'package:dnd/models/characteristics.dart';
 import 'package:dnd/pages/character_selector/character_creation/creation_features.dart';
 import 'package:dnd/pages/character_selector/character_creation/skills_selector.dart';
-import 'package:dnd/pages/character_selector/selection_page.dart';
 import 'package:dnd/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +20,7 @@ import '../../../components/alert_dialog.dart';
 import '../../../components/default_button.dart';
 import '../../../global_vars.dart';
 import '../../../models/ch_race.dart';
+import '../../../models/feature.dart';
 
 List<String> simpleSkillsSelected = [];
 List<String> selectedFeatures = [];
@@ -39,7 +39,7 @@ class _CreationFinalState extends State<CreationFinal> {
 
   final maxLengthDescription = 300;
   final TextEditingController nameController = TextEditingController();
-  final maxLengthName = 30;
+  final maxLengthName = 20;
   final TextEditingController ideologyController = TextEditingController();
   final TextEditingController healthController = TextEditingController();
   final maxLengthIdeology = 30;
@@ -53,7 +53,18 @@ class _CreationFinalState extends State<CreationFinal> {
     "Мудрость": 8,
     "Харизма": 8
   };
-
+  int ideologyIndex=-1;
+  List<String> ideology=[
+    "Законопослушный добрый",
+    "Законопослушный нейтральный",
+    "Законопослушный злой",
+    "Нейтральный добрый",
+    "Истинно нейтральный",
+    "Нейтральный злой",
+    "Хаотичный добрый",
+    "Хаотичный нейтральный",
+    "Хаотичный злой"
+  ];
   @override
   void initState() {
     super.initState();
@@ -72,6 +83,60 @@ class _CreationFinalState extends State<CreationFinal> {
     ChClass currentClass = args["currentClass"];
     // List<String> simpleSkills = args["simpleSkills"] ?? [];
     healthController.text = currentClass.classInfo.hitDice.toString();
+
+    saveCharacter() async {
+      String data =
+      await DefaultAssetBundle.of(
+          context)
+          .loadString(
+          "assets/json/skillsStart.json");
+      final result = jsonDecode(data);
+      Characteristics ch =
+      Characteristics.fromJson(
+          result);
+      skills.forEach((key, value) {
+        ch.setCharacteristicByName(
+            key, value);
+      });
+      for (var element
+      in simpleSkillsSelected) {
+        ch.changeSkillByName(element);
+      }
+      List<Feature> fea=[];
+      for (var selected in selectedFeatures) {
+        for (var all in informationBloc.state.features) {
+          if(all.name==selected) fea.add(all);
+        }
+      }
+      Character character = Character(
+        features: fea,
+          level: 1,
+          name: nameController.text,
+          ideology: ideology[ideologyIndex],
+          chRace: currentRace,
+          chClass: [currentClass],
+          characteristics: ch,
+          characterInfo: CharacterInfo(
+
+              experiencePoints: 0,
+              currentHealth: int.parse(
+                  healthController
+                      .text),
+              allHealth: int.parse(
+                  healthController
+                      .text),
+              armorClass: 10 +
+                  getMod(
+                      "Ловкость",
+                      currentRace,
+                      currentSubRace), initiative: 0, tempHealth: 0, speed: 30, mastery: 2),
+          description:
+          descriptionController
+              .text,
+          subRace:currentSubRace, knownSpells: const [] );
+      characterBloc
+          .add(AddCharacterEvent(character));
+    }
     return Scaffold(
         appBar: AppBar(
             title: const Text("Создание персонажа"),
@@ -84,8 +149,8 @@ class _CreationFinalState extends State<CreationFinal> {
             return BlocBuilder<InformationBloc, InformationState>(
                 bloc: informationBloc,
                 builder: (context, state) {
-                  informationBloc.add(LoadFeaturesEvent(context));
-                  informationBloc.add(LoadClassesEvent(context));
+                  // informationBloc.add(LoadFeaturesEvent(context));
+                  // informationBloc.add(LoadClassesEvent(context));
                   return SingleChildScrollView(
                       child: Padding(
                           padding: EdgeInsets.all(20.dp),
@@ -201,33 +266,53 @@ class _CreationFinalState extends State<CreationFinal> {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
-                                child: TextFormField(
-                                  buildCounter: (context,
-                                          {required currentLength,
-                                          required isFocused,
-                                          maxLength}) =>
-                                      const SizedBox(),
-                                  maxLength: maxLengthIdeology,
-                                  controller: ideologyController,
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                  cursorColor: Colors.black45,
-                                  textAlignVertical: TextAlignVertical.center,
-                                  autofocus: false,
-                                  decoration: InputDecoration(
-                                      enabledBorder: const UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.white),
+                                child:  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(
+                                        child: ideologyIndex == -1
+                                            ? Text(
+                                          "Мировозрение",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall
+                                              ?.copyWith(color: Colors.black45),
+                                        )
+                                            : Text(
+                                          ideology[ideologyIndex],
+                                          style: Theme.of(context).textTheme.bodySmall,
+                                        ),
                                       ),
-                                      focusedBorder: const UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.white),
+                                      PopupMenuButton(
+                                        color: OurColors.focusColorTile,
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                              Radius.circular(20.0),
+                                            )),
+                                        icon: const Icon(
+                                          Icons.keyboard_arrow_down,
+                                          color: Colors.black,
+                                        ),
+                                        itemBuilder: (BuildContext context) => ideology
+                                            .asMap()
+                                            .entries
+                                            .map((e) => PopupMenuItem(
+                                          child: Text(
+                                            e.value,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(color: Colors.white60),
+                                          ),
+                                          onTap: () {
+                                            setState(() {
+                                              ideologyIndex = e.key;
+                                            });
+                                          },
+                                        ))
+                                            .toList(),
                                       ),
-                                      hintText: "Мировозрение",
-                                      hintStyle: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall
-                                          ?.copyWith(color: Colors.black45)),
-                                ),
+                                    ]),
                               ),
                               Container(
                                 alignment: Alignment.topRight,
@@ -745,7 +830,7 @@ class _CreationFinalState extends State<CreationFinal> {
                                             vertical: 3.dp),
                                         alignment: Alignment.topRight,
                                         child: Text(
-                                          "Осталось очков: $currentPoints/$maxPoints",
+                                          "Очков использовано: $currentPoints/$maxPoints",
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodySmall
@@ -761,6 +846,7 @@ class _CreationFinalState extends State<CreationFinal> {
                                             Navigator.of(context).pushNamed(
                                                 SkillsSelector.routeName,
                                                 arguments: {
+                                                  "mod":0,
                                                   "currentClass": currentClass
                                                 });
                                           },
@@ -775,6 +861,7 @@ class _CreationFinalState extends State<CreationFinal> {
                                             Navigator.of(context).pushNamed(
                                                 CreationFeatures.routeName,
                                                 arguments: {
+                                                  "mod":0,
                                                   "currentRace": currentRace,
                                                   "currentSubRace":
                                                       currentSubRace
@@ -789,11 +876,13 @@ class _CreationFinalState extends State<CreationFinal> {
                                               OurColors.focusColorLight,
                                           text: 'Создать персонажа',
                                           onPress: () async {
-                                            if (nameController.text.isEmpty)
+                                            if (nameController.text.isEmpty) {
                                               showSnackBar(
-                                                  "Введите имя персонажа");
-                                            else if (ideologyController
-                                                .text.isEmpty) {
+                                                  "Введите имя персонажа");}
+                                              else if(characterBloc.state.getByName(nameController.text)!=null){
+
+                                            showSnackBar("Персонаж с таким именем уже существует");
+                                            } else if (ideologyIndex==-1) {
                                               showSnackBar(
                                                   "Введите мировозрение персонажа");
                                             } else if (healthController
@@ -804,71 +893,39 @@ class _CreationFinalState extends State<CreationFinal> {
                                                     .isEmpty &&
                                                 healthController
                                                     .text.isNotEmpty &&
-                                                ideologyController
-                                                    .text.isNotEmpty &&
+                                                ideologyIndex!=-1 &&
                                                 nameController
                                                     .text.isNotEmpty) {
                                               showMyDialog(
                                                   "Нет выбранных навыков",
                                                   "Вы уверены, что хотите продолжить?",
-                                                  () {},
+                                                  (context) {
+                                                    debugPrint("Не выбраны навыки");
+                                                    saveCharacter();
+                                                    Navigator.of(context).popUntil((route) => route.isFirst);
+                                                    saveCharacterInfo();
+                                                    saveInfo();
+                                                  },
                                                   context);
                                             } else if (selectedFeatures.isEmpty &&
                                                 healthController
                                                     .text.isNotEmpty &&
-                                                ideologyController
-                                                    .text.isNotEmpty &&
+                                                ideologyIndex!=-1 &&
                                                 nameController
                                                     .text.isNotEmpty) {
                                               showMyDialog(
                                                   "Нет выбранных черт",
                                                   "Вы уверены, что хотите продолжить?",
-                                                  () {},
+                                                      (context) {
+                                                    debugPrint("Не выбраны черты");
+                                                    saveCharacter();
+                                                    Navigator.of(context).popUntil((route) => route.isFirst);
+                                                    saveCharacterInfo();
+                                                    saveInfo();
+                                                  },
                                                   context);
                                             } else {
-                                              String data =
-                                                  await DefaultAssetBundle.of(
-                                                          context)
-                                                      .loadString(
-                                                          "assets/json/skillsStart.json");
-                                              final result = jsonDecode(data);
-                                              Characteristics ch =
-                                                  Characteristics.fromJson(
-                                                      result);
-                                              skills.forEach((key, value) {
-                                                ch.setCharacteristicByName(
-                                                    key, value);
-                                              });
-                                              for (var element
-                                                  in simpleSkillsSelected) {
-                                                ch.changeSkillByName(element);
-                                              }
-                                              Character character = Character(
-                                                  level: 1,
-                                                  name: nameController.text,
-                                                  chRace: currentRace,
-                                                  chClass: [currentClass],
-                                                  characteristics: ch,
-                                                  characterInfo: CharacterInfo(
-                                                    
-                                                    experiencePoints: 0,
-                                                      currentHealth: int.parse(
-                                                          healthController
-                                                              .text),
-                                                      allHealth: int.parse(
-                                                          healthController
-                                                              .text),
-                                                      armorClass: 10 +
-                                                          getMod(
-                                                              "Ловкость",
-                                                              currentRace,
-                                                              currentSubRace), initiative: 0, tempHealth: 0, speed: 30, mastery: 2),
-                                                  description:
-                                                      descriptionController
-                                                          .text,
-                                                  subRace:currentSubRace, knownSpells: const [] );
-                                              characterBloc
-                                                  .add(AddItemEvent(character));
+                                              saveCharacter();
                                               Navigator.of(context).popUntil((route) => route.isFirst);
                                               saveCharacterInfo();
                                               saveInfo();
@@ -883,6 +940,8 @@ class _CreationFinalState extends State<CreationFinal> {
                 });
           },
         ));
+
+
   }
 
   int getMod(String skill, ChRace currentRace, ChRace? currentSubRace) {

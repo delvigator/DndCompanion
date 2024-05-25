@@ -1,42 +1,47 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 
 class Characteristics {
-   List<CharacteristicUnit> characteristics;
-
+   List<CharacteristicUnit> characteristicsList;
 
 changeSkillByName(String name){
   Skill? skill;
-  for (var element in characteristics) {
+  for (var element in characteristicsList) {
     skill= element.getSkillByName(name);
     if(skill!=null) skill.mastery=!(skill.mastery);
   }
 
 }
+CharacteristicUnit? getChUnitByName(String name){
+  CharacteristicUnit? chUnit;
+  for (var element in characteristicsList) {
+   if(element.name==name) chUnit=element;
+  }
+  return chUnit;
+}
   int getCharacteristicByName(String name){
   int number=-1;
-     for (var element in characteristics) {
+     for (var element in characteristicsList) {
        if(element.name==name) number= element.value;
      }
      return number;
    }
    setCharacteristicByName(String name, int number){
-     for (var element in characteristics) {
+     for (var element in characteristicsList) {
        if(element.name==name) element.value=number;
 
      }
    }
-  Characteristics({required this.characteristics});
+  Characteristics({required this.characteristicsList});
   factory Characteristics.fromJson (Map<String,dynamic> json){
-    List<dynamic> ch = json["characteristics"] is String? && json["characteristics"]!=null ? jsonDecode(json["characteristics"]) : json["characteristics"];
-    return Characteristics(characteristics:  List<CharacteristicUnit>.generate(
+    List<dynamic> ch = json["characteristicsList"] is String? && json["characteristicsList"]!=null ? jsonDecode(json["characteristicsList"]) : json["characteristicsList"];
+    return Characteristics(characteristicsList:  List<CharacteristicUnit>.generate(
         ch.length, (index) => CharacteristicUnit.fromJson(ch[index])));
   }
 
    Map<String, dynamic> toJson() {
     return {
-      'characteristics': characteristics,
+      'characteristicsList': characteristicsList,
     };
   }
 

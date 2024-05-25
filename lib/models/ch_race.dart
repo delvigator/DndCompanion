@@ -8,7 +8,7 @@ import 'characteristics.dart';
 class ChRace extends Equatable {
   final String name;
   final String description;
-  final List<ChRace> subRace;
+  final List<ChRace>? subRace;
   final List<Peculiarities> peculiarities; //особенности
   final List<Skill> skillMastery;
   final Map<String, int> skillBoost;
@@ -19,7 +19,7 @@ class ChRace extends Equatable {
       {
         required this.numberFeatures,
         required this.name,
-      required this.subRace,
+       this.subRace=const [],
       required this.description,
       required this.peculiarities,
       required this.skillMastery,
@@ -28,7 +28,7 @@ class ChRace extends Equatable {
   factory ChRace.fromJson(Map<String, dynamic> json) {
     List<dynamic> peculiarities = json["peculiarities"] is String ? jsonDecode(json["peculiarities"]) : json["peculiarities"];
     List<dynamic> skills = json["skillMastery"]is String ? jsonDecode(json["skillMastery"]) : json["skillMastery"];
-    List<dynamic> subRace = json["subRace"]is String ? jsonDecode(json["subRace"]) : json["subRace"];
+    List<dynamic> subRace = json["subRace"]is String ? jsonDecode(json["subRace"]) : json["subRace"] ?? [];
     return ChRace(
       name: json["name"],
       description: json["description"],

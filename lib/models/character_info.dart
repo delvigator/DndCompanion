@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 
 class CharacterInfo{
   final int currentHealth;
-  final int allHealth;
+  int allHealth;
   final int tempHealth;
   final int speed;
   final int armorClass;
-  final int experiencePoints;
+   int experiencePoints;
   final int initiative;
   final int mastery;
 
@@ -26,7 +26,6 @@ class CharacterInfo{
   CharacterInfo( {required this.initiative,required this.currentHealth, required this.allHealth,  required this.tempHealth, required this.speed,
       required this.armorClass, required this.experiencePoints, required this.mastery});
   factory CharacterInfo.fromJson(Map<String,dynamic> json){
-    debugPrint(json.toString());
     return CharacterInfo(
         currentHealth: json["currentHealth"],
         initiative: json["initiative"] ?? 0,
