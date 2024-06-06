@@ -25,7 +25,12 @@ class _CreationFeaturesState extends State<CreationFeatures> {
   late List<bool> values = [];
   final int numberOfFeatures = 1;
   int maxNumber=0;
-
+@override
+  void initState() {
+  informationBloc.add(LoadFeaturesEvent(context));
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final args = (ModalRoute.of(context)?.settings.arguments ??

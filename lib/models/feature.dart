@@ -1,6 +1,8 @@
+import 'package:equatable/equatable.dart';
+
 import 'ch_race.dart';
 
-class Feature{
+class Feature extends Equatable{
   final String name;
   final String description;
   final List<Peculiarities> peculiarities;
@@ -23,6 +25,9 @@ class Feature{
 
     };
   }
+
+  @override
+  List<Object?> get props => [name,description,peculiarities,bonuses];
 
 
 }

@@ -6,9 +6,15 @@ import 'package:flutter/cupertino.dart';
 class ChClass extends Equatable {
   final String name;
   int level;
-  final ClassInfo classInfo;
+ // final ClassInfo classInfo;
   final List<ClassSkillsPerLevel> classSkillsPerLevel;
   final List<ClassSkillsText> classSkillsText;
+  final int hitDice;
+  final int startHealth;
+  final String description;
+  final List<String> saves;
+  final List<String> simpleSkills;
+  final int numberOfSimpleSkills;
 
   ClassSkillsPerLevel? getSkillsByLevel (int level){
     ClassSkillsPerLevel? result;
@@ -24,19 +30,33 @@ for (var element in classSkillsPerLevel) {
   ChClass({
     required this.name,
     required this.level,
-    required this.classInfo,
+   // required this.classInfo,
     required this.classSkillsPerLevel,
     required this.classSkillsText,
+    required this.hitDice,
+    required this.description,
+    required this.startHealth,
+    required this.saves,
+    required this.simpleSkills,
+    required this.numberOfSimpleSkills
   });
 
   factory ChClass.fromJson(Map<String, dynamic> json) {
-    debugPrint(json["classSkillsText"]);
+    List<dynamic> saves = json["saves"];
+    List<dynamic> simpleSkills = json["simpleSkills"];
     List<dynamic> listSkills = json["classSkillsPerLevel"];
-    List<dynamic> listText = json["classSkillsTexts"];
+    List<dynamic> listText = json["peculiarity"];
     return ChClass(
         name: json["name"],
         level: json["level"],
-        classInfo: ClassInfo.fromJson(json["classInfo"]),
+        hitDice: json["hitDice"],
+        startHealth: json["startHealth"],
+        saves: List<String>.generate(saves.length, (index) => saves[index]),
+        simpleSkills: List<String>.generate(
+            simpleSkills.length, (index) => simpleSkills[index]),
+        numberOfSimpleSkills: json["numberOfSimpleSkills"],
+        description: json["description"],
+       // classInfo: ClassInfo.fromJson(json["classInfo"]),
         classSkillsPerLevel: List<ClassSkillsPerLevel>.generate(
             listSkills.length,
             (index) => ClassSkillsPerLevel.fromJson(listSkills[index])),
@@ -49,60 +69,66 @@ for (var element in classSkillsPerLevel) {
 
   Map<String, dynamic> toJson() {
     return {
+      'peculiarity': classSkillsText,
       'name': name,
       'level': level,
-      'classInfo': classInfo,
-      'classSkillsPerLevel': classSkillsPerLevel,
-      'classSkillsText': classSkillsText,
-    };
-  }
-
-
-}
-
-class ClassInfo {
-  final int hitDice;
-  final int startHealth;
-  final String description;
-  final List<String> saves;
-  final List<String> simpleSkills;
-  final int numberOfSimpleSkills;
-
-  ClassInfo(
-      {required this.hitDice,
-        required this.description,
-        required this.startHealth,
-      required this.saves,
-      required this.simpleSkills,
-      required this.numberOfSimpleSkills});
-
-
-  factory ClassInfo.fromJson(Map<String, dynamic> json) {
-    List<dynamic> saves = json["saves"];
-    List<dynamic> simpleSkills = json["simpleSkills"];
-    return ClassInfo(
-        hitDice: json["hitDice"],
-        startHealth: json["startHealth"],
-        saves: List<String>.generate(saves.length, (index) => saves[index]),
-        simpleSkills: List<String>.generate(
-            simpleSkills.length, (index) => simpleSkills[index]),
-        numberOfSimpleSkills: json["numberOfSimpleSkills"],
-        description: json["description"]);
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
       'hitDice': hitDice,
       'startHealth': startHealth,
       'description': description,
       'saves': saves,
       'simpleSkills': simpleSkills,
       'numberOfSimpleSkills': numberOfSimpleSkills,
+     // 'classInfo': classInfo,
+      'classSkillsPerLevel': classSkillsPerLevel,
     };
   }
 
 
 }
+
+// class ClassInfo {
+//   final int hitDice;
+//   final int startHealth;
+//   final String description;
+//   final List<String> saves;
+//   final List<String> simpleSkills;
+//   final int numberOfSimpleSkills;
+//
+//   ClassInfo(
+//       {required this.hitDice,
+//         required this.description,
+//         required this.startHealth,
+//       required this.saves,
+//       required this.simpleSkills,
+//       required this.numberOfSimpleSkills});
+//
+//
+//   factory ClassInfo.fromJson(Map<String, dynamic> json) {
+//     List<dynamic> saves = json["saves"];
+//     List<dynamic> simpleSkills = json["simpleSkills"];
+//     return ClassInfo(
+//         hitDice: json["hitDice"],
+//         startHealth: json["startHealth"],
+//         saves: List<String>.generate(saves.length, (index) => saves[index]),
+//         simpleSkills: List<String>.generate(
+//             simpleSkills.length, (index) => simpleSkills[index]),
+//         numberOfSimpleSkills: json["numberOfSimpleSkills"],
+//         description: json["description"]);
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     return {
+//       'hitDice': hitDice,
+//       'startHealth': startHealth,
+//       'description': description,
+//       'saves': saves,
+//       'simpleSkills': simpleSkills,
+//       'numberOfSimpleSkills': numberOfSimpleSkills,
+//     };
+//   }
+//
+//
+// }
 
 class ClassSkillsText {
   final String title;
@@ -153,9 +179,9 @@ class ClassSkillsPerLevel {
   final int level;
   final int masteryBonus;
   final List<ClassSkillUnit> classSkills;
-  final int numberKnownSpells;
-  final int numberKnownFocuses;
-  final Map<String, int> spellSlots;
+  final int? numberKnownSpells;
+  final int? numberKnownFocuses;
+  final Map<String, int>? spellSlots;
 
 
   ClassSkillsPerLevel(

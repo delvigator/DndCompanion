@@ -26,7 +26,7 @@ class _SelectionPageState extends State<SelectionPage> {
   void initState() {
     super.initState();
     setState(() {
-      readPrefs(context);
+     // readPrefs(context);
     });
 
   }

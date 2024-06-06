@@ -1,4 +1,6 @@
-class Note{
+import 'package:equatable/equatable.dart';
+
+class Note extends Equatable{
   final String title;
   final String text;
   final String? category;
@@ -20,4 +22,8 @@ class Note{
       category: map['category']  ?? "",
     );
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [title,text,category];
 }

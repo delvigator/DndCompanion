@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 
+import '../../bloc/information_bloc/information_bloc.dart';
 import '../../components/our_colors.dart';
 import '../../models/character.dart';
 
@@ -26,8 +27,8 @@ class _SpellsBookPageState extends State<SpellsBookPage> {
   @override
   void initState() {
     super.initState();
+  readPrefs(context);
     // TODO: implement initState
-    readPrefs(context);
     setState(() {
       checks=globalChecks;
     });
@@ -56,10 +57,16 @@ class _SpellsBookPageState extends State<SpellsBookPage> {
             spells.putIfAbsent(element.name,
                 () => List.generate(9, (index) => TextEditingController()));
             spells[element.name]?.asMap().forEach((key, value) {
-              value.text = element
+              if(element
+                  .getSkillsByLevel(characterBloc.state.characters[index].level)?.spellSlots!=null) {
+                value.text = element
                   .getSkillsByLevel(characterBloc.state.characters[index].level)!
-                  .spellSlots[(key + 1).toString()]
+                  .spellSlots![(key + 1).toString()]
                   .toString();
+              }
+              else {
+                value.text="0";
+              }
             });
           }
           globalSpells = spells;
@@ -148,7 +155,7 @@ class _SpellsBookPageState extends State<SpellsBookPage> {
                                                       .getSkillsByLevel(
                                                           element.value.level)!
                                                       .spellSlots
-                                                      .entries
+                                                      !.entries
                                                       .map((e) => Column(
                                                             children: [
                                                               Padding(
@@ -192,15 +199,34 @@ class _SpellsBookPageState extends State<SpellsBookPage> {
                                                                             Center(
                                                                           child:
                                                                               TextFormField(
-                                                                                onTapOutside: (event) {
-                                                                                  FocusManager.instance.primaryFocus
-                                                                                      ?.unfocus();
-                                                                                  saveCharacterInfo();
-                                                                                },
-                                                                                onChanged:(e){
-                                                                                  saveCharacterInfo();},
-                                                                                onEditingComplete: (){
-                                                                                  saveCharacterInfo();},
+                                                                                // onTapOutside: (event) {
+                                                                                //   FocusManager.instance.primaryFocus
+                                                                                //       ?.unfocus();
+                                                                                //   if(e.value.toString()!=globalSpells[element
+                                                                                //       .value
+                                                                                //       .name]?[int.parse(
+                                                                                //       e.key) -
+                                                                                //       1].text) {
+                                                                                //     saveCharacterInfo();
+                                                                                //   }
+                                                                                // },
+                                                                                // onChanged:(event){
+                                                                                //   if(e.value.toString()!=globalSpells[element
+                                                                                //       .value
+                                                                                //       .name]?[int.parse(
+                                                                                //       e.key) -
+                                                                                //       1].text) {
+                                                                                //     saveCharacterInfo();
+                                                                                //   }},
+                                                                                // onEditingComplete: (){
+                                                                                //   if(e.value.toString()!=globalSpells[element
+                                                                                //       .value
+                                                                                //       .name]?[int.parse(
+                                                                                //       e.key) -
+                                                                                //       1].text) {
+                                                                                //     saveCharacterInfo();
+                                                                                //   }},
+
                                                                             //initialValue: e.value.toString(),
                                                                             controller: globalSpells[element
                                                                                 .value

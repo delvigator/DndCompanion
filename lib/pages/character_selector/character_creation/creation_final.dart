@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dnd/bloc/character_bloc/character_bloc.dart';
 import 'package:dnd/components/our_colors.dart';
 import 'package:dnd/components/snack_bar.dart';
+import 'package:dnd/http/requests.dart';
 import 'package:dnd/models/ch_class.dart';
 import 'package:dnd/models/character.dart';
 import 'package:dnd/models/character_info.dart';
@@ -82,7 +83,7 @@ class _CreationFinalState extends State<CreationFinal> {
     ChRace? currentSubRace = args["currentSubRace"];
     ChClass currentClass = args["currentClass"];
     // List<String> simpleSkills = args["simpleSkills"] ?? [];
-    healthController.text = currentClass.classInfo.hitDice.toString();
+    healthController.text = currentClass.hitDice.toString();
 
     saveCharacter() async {
       String data =
@@ -903,8 +904,6 @@ class _CreationFinalState extends State<CreationFinal> {
                                                     debugPrint("Не выбраны навыки");
                                                     saveCharacter();
                                                     Navigator.of(context).popUntil((route) => route.isFirst);
-                                                    saveCharacterInfo();
-                                                    saveInfo();
                                                   },
                                                   context);
                                             } else if (selectedFeatures.isEmpty &&
@@ -920,15 +919,13 @@ class _CreationFinalState extends State<CreationFinal> {
                                                     debugPrint("Не выбраны черты");
                                                     saveCharacter();
                                                     Navigator.of(context).popUntil((route) => route.isFirst);
-                                                    saveCharacterInfo();
-                                                    saveInfo();
+
                                                   },
                                                   context);
                                             } else {
                                               saveCharacter();
                                               Navigator.of(context).popUntil((route) => route.isFirst);
-                                              saveCharacterInfo();
-                                              saveInfo();
+
                                             }
                                           }),
                                     )
@@ -964,7 +961,10 @@ class _CreationFinalState extends State<CreationFinal> {
       }
     }
     if (skillNumber != -1) {
-      skills[skill] = skillNumber;
+      setState(() {
+        skills[skill] = skillNumber;
+      });
+
     }
   }
 
@@ -982,7 +982,10 @@ class _CreationFinalState extends State<CreationFinal> {
       }
     }
     if (skillNumber != -1) {
-      skills[skill] = skillNumber;
+      setState(() {
+        skills[skill] = skillNumber;
+      });
+
     }
   }
 

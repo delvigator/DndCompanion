@@ -25,6 +25,7 @@ class _CreationRaceState extends State<CreationRace> {
 @override
   void initState() {
   informationBloc.add(LoadRacesEvent(context));
+
     super.initState();
   }
   @override
@@ -41,6 +42,12 @@ class _CreationRaceState extends State<CreationRace> {
         body: BlocBuilder<InformationBloc, InformationState>(
           bloc: informationBloc,
           builder: (context, state) {
+            List<ChRace> races=[];
+
+              informationBloc.state.races.forEach((element) {
+                if (!element.isSubRace) races.add(element);
+              });
+            
           //  informationBloc.add(LoadRacesEvent(context));
             return SingleChildScrollView(
                 child: Padding(
@@ -66,19 +73,19 @@ class _CreationRaceState extends State<CreationRace> {
                     },
                     child: SizedBox(
                       width: 400.dp,
-                      height: informationBloc.state.races.length > 4
+                      height: races.length > 4
                           ? 120.dp
                           : 60.dp,
                       child: GridView.count(
                           shrinkWrap: true,
                           childAspectRatio: (itemWidth / itemHeight),
                           crossAxisCount:
-                              informationBloc.state.races.length > 4 ? 2 : 1,
+                              races.length > 4 ? 2 : 1,
                           physics: const ClampingScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
-                          children: informationBloc.state.races
+                          children: races
                               .map((e) => DefaultButton(
                                     primaryColor: currentRace == e
                                         ? OurColors.lightPink

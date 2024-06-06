@@ -4,6 +4,10 @@ import 'package:dnd/pages/spells_book/spells_book_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 
+import '../../bloc/information_bloc/information_bloc.dart';
+import '../../global_vars.dart';
+import '../../shared_prefs.dart';
+
 class SpellsPage extends StatefulWidget {
   const SpellsPage({super.key});
 
@@ -12,6 +16,12 @@ class SpellsPage extends StatefulWidget {
 }
 
 class _SpellsPageState extends State<SpellsPage> {
+  @override
+  void initState() {
+    //readPrefs(context);
+    informationBloc.add(LoadSpellsEvent(context));
+    super.initState();
+  }
   int currentPage = 0;
   List<String> pageNamesAll = ["Книга заклинаний", "Все заклинания"];
 

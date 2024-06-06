@@ -5,7 +5,6 @@ import 'package:dnd/components/showbar_modal_bottom_sheet1.dart';
 import 'package:dnd/models/character_info.dart';
 import 'package:dnd/pages/character_list/character_edit_page.dart';
 import 'package:dnd/pages/character_list/skill_bottom_sheet.dart';
-import 'package:dnd/pages/character_selector/character_creation/creation_class.dart';
 import 'package:dnd/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -150,7 +149,7 @@ class _CharacterListPageState extends State<CharacterListPage> {
                       child: Center(
                         child: IconButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, CreationClass.routeName,arguments: {"mod":1}).then((_) => setState(() {}));
+                            Navigator.pushNamed(context, CharacterEditPage.routeName).then((_) => setState(() {}));
                           },
                           icon:  Icon(Icons.keyboard_double_arrow_up,size: 17.dp,),
                           color: Colors.black,

@@ -88,17 +88,34 @@ class InformationBloc extends Bloc<InformationEvent, InformationState> {
   }
 
   _onLoadFeaturesEvent(LoadFeaturesEvent event,Emitter<InformationState> emit) async {
-    String data = await DefaultAssetBundle.of(event.context!).loadString("assets/json/features.json");
-    final result = jsonDecode(data);
-    List<Feature> features= List<Feature>.generate(result.length, (index) => Feature.fromJson(result[index]));
-    emit(state.copyWith(features: features));
+    List<Feature> features=state.features;
+    // String data = await DefaultAssetBundle.of(event.context!).loadString("assets/json/classes.json");
+    await tryGetFeatures(
+        onSuccess: (headers,body){
+          //  final result = jsonDecode(body);
+          features= List<Feature>.generate(body.length, (index) => Feature.fromJson(body[index]));
+          // emit(state.copyWith(classes: classes));
+        },
+        onError: (code,body){
+          showSnackBar("Не удалось загрузить черты");
+        }
+    ).whenComplete(() => emit(state.copyWith(features: features)) );
+
 
   }
   _onLoadSpellsEvent(LoadSpellsEvent event,Emitter<InformationState> emit) async {
-    String data = await DefaultAssetBundle.of(event.context!).loadString("assets/json/spells.json");
-    final result = jsonDecode(data);
-    List<MagicSpell> spells= List<MagicSpell>.generate(result.length, (index) => MagicSpell.fromJson(result[index]));
-    emit(state.copyWith(spells: spells));
+    List<MagicSpell> spells=state.spells;
+    // String data = await DefaultAssetBundle.of(event.context!).loadString("assets/json/classes.json");
+    await tryGetSpells(
+        onSuccess: (headers,body){
+          //  final result = jsonDecode(body);
+          spells= List<MagicSpell>.generate(body.length, (index) => MagicSpell.fromJson(body[index]));
+          // emit(state.copyWith(classes: classes));
+        },
+        onError: (code,body){
+          showSnackBar("Не удалось загрузить заклинания");
+        }
+    ).whenComplete(() => emit(state.copyWith(spells: spells)) );
 
   }
 }

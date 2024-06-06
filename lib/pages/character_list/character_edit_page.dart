@@ -173,6 +173,8 @@ class _CharacterEditPageState extends State<CharacterEditPage> {
                 return BlocBuilder<InformationBloc, InformationState>(
                     bloc: informationBloc,
                     builder: (context, state) {
+                      informationBloc.add(LoadFeaturesEvent(context));
+                      informationBloc.add(LoadClassesEvent(context));
                       return characterBloc.state.currentCharacter != -1
                           ? SingleChildScrollView(
                               child: Padding(

@@ -8,6 +8,7 @@ import 'characteristics.dart';
 class ChRace extends Equatable {
   final String name;
   final String description;
+  final bool isSubRace;
   final List<ChRace>? subRace;
   final List<Peculiarities> peculiarities; //особенности
   final List<Skill> skillMastery;
@@ -17,6 +18,7 @@ class ChRace extends Equatable {
 // + заклинания которые добавляются с расой
   const ChRace(
       {
+        required this.isSubRace,
         required this.numberFeatures,
         required this.name,
        this.subRace=const [],
@@ -29,7 +31,9 @@ class ChRace extends Equatable {
     List<dynamic> peculiarities = json["peculiarities"] is String ? jsonDecode(json["peculiarities"]) : json["peculiarities"];
     List<dynamic> skills = json["skillMastery"]is String ? jsonDecode(json["skillMastery"]) : json["skillMastery"];
     List<dynamic> subRace = json["subRace"]is String ? jsonDecode(json["subRace"]) : json["subRace"] ?? [];
+    debugPrint(json["sub"].toString());
     return ChRace(
+      isSubRace: json["sub"],
       name: json["name"],
       description: json["description"],
       peculiarities: List<Peculiarities>.generate(peculiarities.length,
@@ -47,12 +51,13 @@ class ChRace extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
+      "sub":isSubRace,
       'name': name,
       'description': description,
-      'subRace': jsonEncode(subRace),
-      'peculiarities': jsonEncode(peculiarities),
-      'skillMastery': jsonEncode(skillMastery),
-      'skillBoost': jsonEncode(skillBoost),
+      'subRace': subRace,
+      'peculiarities': peculiarities,
+      'skillMastery': skillMastery,
+      'skillBoost': skillBoost,
       'numberFeatures': numberFeatures,
     };
   }
@@ -60,7 +65,7 @@ class ChRace extends Equatable {
 
 }
 
-class Peculiarities {
+class Peculiarities extends Equatable {
   final String title;
   final String text;
 
@@ -76,6 +81,10 @@ class Peculiarities {
       'text': text,
     };
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [title,text];
 
 
 }

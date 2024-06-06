@@ -37,13 +37,13 @@ class _SkillsSelectorState extends State<SkillsSelector> {
     //0-создание, 1- изменение
     int mod = args["mod"];
 
-    final int? numberOfSkills = currentClass?.classInfo.numberOfSimpleSkills;
+    final int? numberOfSkills = currentClass?.numberOfSimpleSkills;
     if (values.isEmpty) {
       if (mod == 0) {
         values = List.generate(
-            currentClass!.classInfo.simpleSkills.length,
+            currentClass!.simpleSkills.length,
             (index) => simpleSkillsSelected
-                    .contains(currentClass.classInfo.simpleSkills[index])
+                    .contains(currentClass.simpleSkills[index])
                 ? true
                 : false);
         for (var element in values) {
@@ -116,7 +116,7 @@ class _SkillsSelectorState extends State<SkillsSelector> {
                 Expanded(
                   child: ListView(
                       children: mod == 0
-                          ? currentClass!.classInfo.simpleSkills
+                          ? currentClass!.simpleSkills
                               .asMap()
                               .entries
                               .map((e) => Padding(

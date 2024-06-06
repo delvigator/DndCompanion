@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dnd/pages/auth/start.dart';
 import 'package:dnd/pages/home/home_router.dart';
 import 'package:dnd/routes.dart';
 import 'package:dnd/theme.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       title: 'DND Companion',
       theme: theme(),
       routes: routes,
-      home: const HomeRouter(),
+      home: const Start(),
     );
   });}
 

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:dnd/components/snack_bar.dart';
+import 'package:dnd/http/requests.dart';
 import 'package:dnd/models/character.dart';
 import 'package:dnd/models/item.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,12 +44,21 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
     result[result.indexOf(event.noteOld)] = event.noteNew;
     Character character =
         state.characters[state.currentCharacter].copyWith(notes: result);
+
     List<Character> characters = List.from(state.characters);
     characters[characters.indexOf(character)] = character;
     emit(state.copyWith(characters: characters));
+   // saveCharacter(character);
     saveCharacterInfo();
   }
+saveCharacter(Character character){
 
+  tryChangeCharacter(onSuccess: (headers,body){
+  },
+  onError: (headers,body){
+    showSnackBar("Не удалось сохранить персонажа");
+  }, character: character);
+}
   _onDeleteNoteEvent(DeleteNoteEvent event, Emitter<CharacterState> emit) {
     List<Note> result =
         List.from(state.characters[state.currentCharacter].notes);
@@ -58,6 +69,7 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
     characters[characters.indexOf(character)] = character;
     emit(state.copyWith(characters: characters));
     saveCharacterInfo();
+    //saveCharacter(character);
   }
 
   _onAddNoteEvent(AddNoteEvent event, Emitter<CharacterState> emit) {
@@ -70,24 +82,38 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
     characters[characters.indexOf(character)] = character;
     emit(state.copyWith(characters: characters));
     saveCharacterInfo();
+   // saveCharacter(character);
   }
 
   _onSelectEvent(SelectEvent event, Emitter<CharacterState> emit) {
+    if(state.currentCharacter!=-1) saveCharacter(state.characters[state.currentCharacter]);
     emit(state.copyWith(currentCharacter: event.indexCharacter));
     simpleSkillsSelectedEdit = [];
     selectedFeaturesEdit = [];
     saveCharacterInfo();
+    tryChangeSelectedCharacter(onSuccess: (headers,body){}, index: event.indexCharacter);
+
   }
 
   _onChangeCharacters(
       ChangeCharactersEvent event, Emitter<CharacterState> emit) {
     emit(state.copyWith(characters: event.characters));
+    saveCharacterInfo();
   }
   _onDeleteCurrentCharacterEvent(DeleteCurrentCharacterEvent event, Emitter<CharacterState> emit) {
-    state.characters.remove(state.characters[state.currentCharacter]);
-    state.currentCharacter=-1;
-    emit(state);
-    saveCharacterInfo();
+    tryDeleteCharacter(onSuccess: (headers,body){
+      tryChangeSelectedCharacter(onSuccess: (headers,body){
+        state.characters.remove(state.characters[state.currentCharacter]);
+        state.currentCharacter=-1;
+        emit(state);
+        saveCharacterInfo();
+      },
+      onError: (headers,body){
+        showSnackBar("Не удалось удалить персонажа");
+      }, index: -1);
+    }, id: state.characters[state.currentCharacter].id);
+
+
   }
   _onChangeCharacter(ChangeCharacterEvent event, Emitter<CharacterState> emit) {
     if (state.currentCharacter != -1) {
@@ -97,6 +123,7 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
       state.characters[state.currentCharacter] = event.character;
       emit(state.copyWith(characters: list));
       saveCharacterInfo();
+      //saveCharacter(event.character);
     }
     //debugPrint(state.characters[state.currentCharacter].characterInfo.toJson().toString());
 
@@ -118,8 +145,13 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
 
   _onAddCharacterEvent(AddCharacterEvent event, Emitter<CharacterState> emit) {
     List<Character> result = List.from(state.characters);
+    debugPrint(jsonEncode(event.character));
     result.add(event.character);
     emit(state.copyWith(characters: result));
+    tryCreateCharacter(onSuccess: (headers,body){},
+        onError: (headers,body){
+      debugPrint(body);
+        }, character: event.character);
     saveCharacterInfo();
   }
 
@@ -129,8 +161,11 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
     if (!result.contains(event.magicSpell)) {
       result.add(event.magicSpell);
     }
-    emit(state.copyWith(currentSpells: result));
-    saveCharacterInfo();
+    if(result!=state.currentSpells) {
+      emit(state.copyWith(currentSpells: result));
+
+      saveCharacterInfo();
+    }
   }
 
   _onDeleteSelectedSpellEvent(
@@ -154,9 +189,13 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
           List.from(state.characters[state.currentCharacter].knownSpells);
       Character? character = state.characters[state.currentCharacter];
       if (!result.contains(event.magicSpell)) {
-        state.characters[state.currentCharacter].knownSpells
-            .add(event.magicSpell);
+        result.add(event.magicSpell);
+        state.characters[state.currentCharacter].copyWith(knownSpells: result);
+        // state.characters[state.currentCharacter].knownSpells
+        //     .add(event.magicSpell);
+        emit(state.copyWith());
       }
+     // saveCharacter(state.characters[state.currentCharacter]);
       saveCharacterInfo();
     }
   }
@@ -166,6 +205,7 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
     if (state.currentCharacter != -1) {
       state.characters[state.currentCharacter].knownSpells
           .remove(event.magicSpell);
+     // saveCharacter(state.characters[state.currentCharacter]);
       saveCharacterInfo();
     }
   }
@@ -184,6 +224,7 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
         emit(state.copyWith(characters: characters));
         // state.characters[state.currentCharacter].items.add(event.item);
       }
+      //saveCharacter(state.characters[state.currentCharacter]);
       saveCharacterInfo();
     }
   }
@@ -191,6 +232,7 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
   _onDeleteItemEvent(DeleteItemEvent event, Emitter<CharacterState> emit) {
     if (state.currentCharacter != -1) {
       state.characters[state.currentCharacter].items.remove(event.item);
+   //   saveCharacter(state.characters[state.currentCharacter]);
       saveCharacterInfo();
     }
   }
@@ -201,6 +243,7 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
           state.characters[state.currentCharacter].items.indexOf(event.item);
       state.characters[state.currentCharacter].items[index].equip = true;
       saveCharacterInfo();
+      //saveCharacter(state.characters[state.currentCharacter]);
       emit(state);
     }
   }
@@ -218,8 +261,8 @@ class CharacterBloc extends Bloc<CharacterEvent, CharacterState> {
       characters[state.currentCharacter] = character;
       emit(state.copyWith(characters: characters));
       // state.characters[state.currentCharacter].items.add(event.item);
-
       saveCharacterInfo();
+      //saveCharacter(state.characters[state.currentCharacter]);
     }
   }
 }

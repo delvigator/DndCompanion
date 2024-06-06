@@ -2,7 +2,7 @@
   {
     "name": "Мудрость",
     "value": 0,
-    "skills": [
+    "skillMastery": [
       {
         "name": "Спасбросок (Мудрость)",
         "mastery": false
@@ -32,7 +32,7 @@
   {
     "name": "Сила",
     "value": 0,
-    "skills": [
+    "skillMastery": [
       {
         "name": "Спасбросок (Сила)",
         "mastery": false
@@ -46,7 +46,7 @@
   {
     "name": "Ловкость",
     "value": 0,
-    "skills": [
+    "skillMastery": [
       {
         "name": "Спасбросок (Ловкость)",
         "mastery": false
@@ -68,7 +68,7 @@
   {
     "name": "Харизма",
     "value": 0,
-    "skills": [
+    "skillMastery": [
       {
         "name": "Спасбросок (Харизма)",
         "mastery": false
@@ -94,7 +94,7 @@
   {
     "name": "Интеллект",
     "value": 0,
-    "skills": [
+    "skillMastery": [
       {
         "name": "Спасбросок (Интеллект)",
         "mastery": false
@@ -124,7 +124,7 @@
   {
     "name": "Телосложение",
     "value": 0,
-    "skills": [
+    "skillMastery": [
       {
         "name": "Спасбросок (Телосложение)",
         "mastery": false

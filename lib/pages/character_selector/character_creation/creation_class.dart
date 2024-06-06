@@ -27,13 +27,15 @@ class CreationClass extends StatefulWidget {
 class _CreationClassState extends State<CreationClass> {
   ChClass? currentClass;
 
-  int currentNumber = 1;
+  int currentNumber = 0;
   TextEditingController healthController = TextEditingController();
-@override
+
+  @override
   void initState() {
-  informationBloc.add(LoadClassesEvent(context));
+    informationBloc.add(LoadClassesEvent(context));
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     final args = (ModalRoute.of(context)?.settings.arguments ??
@@ -47,7 +49,7 @@ class _CreationClassState extends State<CreationClass> {
     return BlocBuilder<CharacterBloc, CharacterState>(
       bloc: characterBloc,
       builder: (context, state) {
-        if (mod == 1 &&  healthController.text=="") {
+        if (mod == 1 && healthController.text == "") {
           healthController.text = characterBloc
               .state
               .characters[characterBloc.state.currentCharacter]
@@ -203,7 +205,7 @@ class _CreationClassState extends State<CreationClass> {
                                 Container(
                                     alignment: Alignment.topLeft,
                                     child: Text(
-                                        "${currentClass?.classInfo.description}",
+                                        "${currentClass?.description}",
                                         textAlign: TextAlign.justify,
                                         style: Theme.of(context)
                                             .textTheme
@@ -290,7 +292,7 @@ class _CreationClassState extends State<CreationClass> {
                                                         ),
                                                       ),
                                                       Text(
-                                                        currentNumber
+                                                        (currentNumber + 1)
                                                             .toString(),
                                                       ),
                                                       Container(
@@ -300,10 +302,12 @@ class _CreationClassState extends State<CreationClass> {
                                                         width: 10.w,
                                                         child: TextButton(
                                                           onPressed: () {
-                                                            if (currentNumber <
-                                                                20) {
-                                                              currentNumber++;
-                                                            }
+                                                            setState(() {
+                                                              if (currentNumber <
+                                                                  19) {
+                                                                currentNumber++;
+                                                              }
+                                                            });
                                                           },
                                                           child: Icon(Icons.add,
                                                               color:
@@ -380,58 +384,74 @@ class _CreationClassState extends State<CreationClass> {
                                                                     ? "${e.value.skillName}."
                                                                     : "${e.value.skillName}, "))
                                                             .toList())),
-                                                RichText(
-                                                    textAlign: TextAlign.start,
-                                                    text: TextSpan(
-                                                        text:
-                                                            "Известные заклинания: ",
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyMedium
-                                                            ?.copyWith(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                        children: [
-                                                          TextSpan(
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .bodyMedium
-                                                                  ?.copyWith(
-                                                                      color: Colors
-                                                                          .white),
-                                                              text:
-                                                                  "${currentClass?.getSkillsByLevel(currentNumber)?.numberKnownSpells}")
-                                                        ])),
-                                                RichText(
-                                                    textAlign: TextAlign.start,
-                                                    text: TextSpan(
-                                                        text:
-                                                            "Известные заговоры: ",
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyMedium
-                                                            ?.copyWith(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                        children: [
-                                                          TextSpan(
-                                                              style: Theme.of(
-                                                                      context)
-                                                                  .textTheme
-                                                                  .bodyMedium
-                                                                  ?.copyWith(
-                                                                      color: Colors
-                                                                          .white),
-                                                              text:
-                                                                  "${currentClass?.getSkillsByLevel(currentNumber)?.numberKnownFocuses}")
-                                                        ])),
+                                                currentClass
+                                                            ?.getSkillsByLevel(
+                                                                currentNumber)
+                                                            ?.numberKnownSpells !=
+                                                        null
+                                                    ? RichText(
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        text: TextSpan(
+                                                            text:
+                                                                "Известные заклинания: ",
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyMedium
+                                                                ?.copyWith(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                            children: [
+                                                              TextSpan(
+                                                                  style: Theme.of(
+                                                                          context)
+                                                                      .textTheme
+                                                                      .bodyMedium
+                                                                      ?.copyWith(
+                                                                          color: Colors
+                                                                              .white),
+                                                                  text:
+                                                                      "${currentClass?.getSkillsByLevel(currentNumber)?.numberKnownSpells}")
+                                                            ]))
+                                                    : Container(),
+                                                currentClass
+                                                            ?.getSkillsByLevel(
+                                                                currentNumber)
+                                                            ?.numberKnownFocuses !=
+                                                        null
+                                                    ? RichText(
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        text: TextSpan(
+                                                            text:
+                                                                "Известные заговоры: ",
+                                                            style: Theme.of(
+                                                                    context)
+                                                                .textTheme
+                                                                .bodyMedium
+                                                                ?.copyWith(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                            children: [
+                                                              TextSpan(
+                                                                  style: Theme.of(
+                                                                          context)
+                                                                      .textTheme
+                                                                      .bodyMedium
+                                                                      ?.copyWith(
+                                                                          color: Colors
+                                                                              .white),
+                                                                  text:
+                                                                      "${currentClass?.getSkillsByLevel(currentNumber)?.numberKnownFocuses}")
+                                                            ]))
+                                                    : Container(),
                                               ],
                                             ),
                                           )
@@ -439,6 +459,11 @@ class _CreationClassState extends State<CreationClass> {
                                       )
                                     : Container(),
                                 currentClass?.classSkillsPerLevel != null &&
+                                        currentClass
+                                                ?.classSkillsPerLevel[
+                                                    currentNumber]
+                                                .spellSlots !=
+                                            null &&
                                         currentClass?.getSkillsByLevel(
                                                 currentNumber) !=
                                             null
@@ -470,7 +495,7 @@ class _CreationClassState extends State<CreationClass> {
                                                       children: currentClass!
                                                           .getSkillsByLevel(
                                                               currentNumber)!
-                                                          .spellSlots
+                                                          .spellSlots!
                                                           .keys
                                                           .map((e) => Container(
                                                               padding:
@@ -487,7 +512,7 @@ class _CreationClassState extends State<CreationClass> {
                                                       children: currentClass!
                                                           .getSkillsByLevel(
                                                               currentNumber)!
-                                                          .spellSlots
+                                                          .spellSlots!
                                                           .values
                                                           .map((e) => Container(
                                                               padding:
@@ -510,7 +535,12 @@ class _CreationClassState extends State<CreationClass> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          SizedBox(height: currentClass == null && mod==0 ? 55.h : currentClass == null && mod==1 ? 40.h : 0),
+                          SizedBox(
+                              height: currentClass == null && mod == 0
+                                  ? 55.h
+                                  : currentClass == null && mod == 1
+                                      ? 40.h
+                                      : 0),
                           Container(
                               alignment: Alignment.bottomRight,
                               child: DefaultButton(
@@ -526,20 +556,26 @@ class _CreationClassState extends State<CreationClass> {
                                             "currentRace": currentRace,
                                             "currentSubRace": currentSubRace
                                           });
-                                    }
-                                    else{
-                                      Character character=characterBloc.state.characters[characterBloc.state.currentCharacter];
-                                      if(character.chClass.contains(currentClass)){
-                                        character.chClass[character.chClass.indexOf(currentClass!)].level++;
-                                      }
-                                      else{
+                                    } else {
+                                      Character character = characterBloc
+                                              .state.characters[
+                                          characterBloc.state.currentCharacter];
+                                      if (character.chClass
+                                          .contains(currentClass)) {
+                                        character
+                                            .chClass[character.chClass
+                                                .indexOf(currentClass!)]
+                                            .level++;
+                                      } else {
                                         character.chClass.add(currentClass!);
                                       }
-                                      character.characterInfo.allHealth=int.parse(healthController.text);
+                                      character.characterInfo.allHealth =
+                                          int.parse(healthController.text);
                                       character.level++;
-                                      character.characterInfo.experiencePoints=0;
-                                      characterBloc.add(ChangeCharacterEvent(character));
-                                      saveCharacterInfo();
+                                      character.characterInfo.experiencePoints =
+                                          0;
+                                      characterBloc
+                                          .add(ChangeCharacterEvent(character));
                                       Navigator.of(context).pop();
                                     }
                                   } else {

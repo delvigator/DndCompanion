@@ -14,7 +14,7 @@ import '../character_selector/selection_page.dart';
 int selectedIndex = 0;
 class HomeRouter extends StatefulWidget {
   const HomeRouter({super.key,});
-
+  static String routeName = "/home";
   @override
   State<HomeRouter> createState() => _HomeRouterState();
 }

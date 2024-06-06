@@ -19,6 +19,11 @@ class AllSpells extends StatefulWidget {
 }
 
 class _AllSpellsState extends State<AllSpells> {
+  @override
+  void initState() {
+    informationBloc.add(LoadSpellsEvent(context));
+    super.initState();
+  }
   TextEditingController nameController = TextEditingController();
   List<String> levels =
       List.generate(10, (index) => index == 0 ? "Фокус" : (index).toString());

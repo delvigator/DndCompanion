@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
 
-class Characteristics {
+
+class Characteristics extends Equatable {
    List<CharacteristicUnit> characteristicsList;
 
 changeSkillByName(String name){
@@ -45,10 +47,14 @@ CharacteristicUnit? getChUnitByName(String name){
     };
   }
 
+  @override
+  // TODO: implement props
+  List<Object?> get props => [characteristicsList];
+
 
 }
 
-class CharacteristicUnit {
+class CharacteristicUnit extends Equatable {
   final String name;
    int value;
    List<Skill> skills;
@@ -62,7 +68,7 @@ class CharacteristicUnit {
       {required this.name, required this.value, required this.skills});
 
   factory CharacteristicUnit.fromJson(Map<String, dynamic> json) {
-    List<dynamic> skills = json["skills"];
+    List<dynamic> skills = json["skillMastery"];
     return CharacteristicUnit(
         name: json["name"],
         value: json["value"],
@@ -75,14 +81,17 @@ class CharacteristicUnit {
     return {
       'name': name,
       'value': value,
-      'skills': skills,
+      'skillMastery': skills,
     };
   }
+
+  @override
+  List<Object?> get props => [name,value,skills];
 
 
 }
 
-class Skill {
+class Skill extends Equatable{
   final String name;
    bool mastery;
 
@@ -98,6 +107,10 @@ class Skill {
       'mastery': mastery,
     };
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [name,mastery];
 
 
 }

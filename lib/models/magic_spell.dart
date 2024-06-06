@@ -26,8 +26,8 @@ class MagicSpell extends Equatable{
         classes: List.generate(classes.length, (index) => classes[index]),
         school: json["school"],
         level: json["level"],
-        isRitual: json["isRitual"],
-        spellComponents: Map.from(json["spellComponents"]),
+        isRitual: json["ritual"],
+        spellComponents: Map<String,bool>.from(json["spellComponents"]),
         timeApplication: json["timeApplication"], timeAction: json["timeAction"]);
   }
 
@@ -42,7 +42,7 @@ class MagicSpell extends Equatable{
       'classes': classes,
       'school': school,
       'level': level,
-      'isRitual': isRitual,
+      'ritual': isRitual,
       'spellComponents': spellComponents,
       'timeApplication': timeApplication,
       'timeAction': timeAction,

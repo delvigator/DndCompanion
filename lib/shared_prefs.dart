@@ -12,6 +12,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models/character.dart';
 import 'models/item.dart';
+Future<void> readUserData() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  userData.login64=prefs.getString("username") ?? "";
+  userData.password64=prefs.getString("password") ?? "";
+}
 Future<void> readInfo() async {
   debugPrint("Reading information....");
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -49,7 +54,7 @@ Future<void> readInfo() async {
 Future<void> readPrefs(BuildContext context) async {
   debugPrint("Read character information....");
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  var data = jsonDecode((prefs.getString("characters")!));
+  var data = jsonDecode(prefs.getString("characters")!);
   debugPrint(prefs.getString("characters")!);
   List<Character> result=[];
   result = List<Character>.generate(
@@ -84,6 +89,7 @@ characterBloc.add(ChangeCharactersEvent(result));
 
 void saveCharacterInfo() {
 debugPrint("Saving character information....");
+
   List<String> resultList = [];
   Map<String,List<String>> spells={};
   globalSpells.forEach((key, value) {
@@ -99,6 +105,13 @@ debugPrint("Saving character information....");
     "currentCharacter": jsonEncode(characterBloc.state.currentCharacter),
     "currentSpells": jsonEncode(characterBloc.state.currentSpells),
     "globalSpells": jsonEncode(spells)
+  };
+  savePrefs(map);
+}
+void saveUserData() {
+  final Map<String, dynamic> map = {
+    "username": userData.login64,
+    "password": userData.password64,
   };
   savePrefs(map);
 }

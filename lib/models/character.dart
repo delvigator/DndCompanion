@@ -71,11 +71,12 @@ class Character extends Equatable {
     List<dynamic> classes = json["chClass"] is String?
         ? jsonDecode(json["chClass"])
         : json["chClass"];
-    List<dynamic> spells = json["selectedSpells"] is String?
-        ? jsonDecode(json["selectedSpells"])
-        : json["selectedSpells"];
+    List<dynamic> spells = json["knownSpells"] is String?
+        ? jsonDecode(json["knownSpells"])
+        : json["knownSpells"];
     List<dynamic> items =
         json["items"] is String? ? jsonDecode(json["items"]) : json["items"];
+    debugPrint(json.toString());
     return Character(
         notes: List<Note>.generate(
             notes.length, (index) => Note.fromJson(notes[index])),
@@ -106,7 +107,9 @@ class Character extends Equatable {
   }
 
   @override
-  List<Object?> get props => [level, name];
+   List<Object?> get props => [level, name,
+    description,portrait,ideology,notes,items,characteristics,knownSpells,chClass,features
+  ];
 
   Map<String, dynamic> toJson() {
     return {
@@ -114,18 +117,17 @@ class Character extends Equatable {
       'features':features,
       'characteristics': characteristics,
       'ideology':ideology,
-      'notes':jsonEncode(notes),
+      'notes':notes,
       'portrait': portrait,
       'level': level,
       'name': name,
       'description': description,
-      'items': jsonEncode(items),
-      'chRace': jsonEncode(chRace),
-      'subRace': jsonEncode(subRace),
-      'chClass': jsonEncode(chClass),
-
+      'items': items,
+      'chRace': chRace,
+      'subRace': subRace,
+      'chClass': chClass,
       'characterInfo': characterInfo.toJson(),
-      'selectedSpells': jsonEncode(knownSpells),
+      'knownSpells': knownSpells,
     };
   }
 

@@ -54,7 +54,7 @@ class Item extends Equatable{
   @override
   List<Object?> get props =>[name,type];
 }
-class ItemInInventory{
+class ItemInInventory extends Equatable{
   Item item;
   int number;
   bool equip;
@@ -76,4 +76,8 @@ class ItemInInventory{
       equip: map['equip'] as bool
     );
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [item,number,equip];
 }
